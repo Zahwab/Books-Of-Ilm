@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Books of Ilm – PDF Library</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="sticky">
+    <div class="logo">Books of Ilm</div>
+    <nav>
+      <ul class="menu">
+        <li><a href="#hero">Home</a></li>
+        <li class="has-sub">
+          <a href="#">Library ▼</a>
+          <ul class="submenu">
+            <li><a href="#featured">Featured</a></li>
+            <li><a href="knowledge.html">All Books</a></li>
+          </ul>
+        </li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#latest">Latest Uploads</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#donate">Donate</a></li>
+      </ul>
+    </nav>
+    <div class="utility">
+      <select id="langSwitch">
+        <option value="en">EN</option>
+        <option value="ar">AR</option>
+        <option value="bn">BN</option>
+      </select>
+      <div class="search-wrapper">
+        <input id="search" type="search" placeholder="Search books…" />
+        <span id="clearSearch">✕</span>
+      </div>
+      <button id="darkToggle">🌙</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h1>Books of Ilm</h1>
+      <p>Your free library of authentic PDF books on Islam.</p>
+      <a href="#featured" class="btn btn-cta">Browse Books</a>
+    </div>
+  </section>
+
+  <!-- Featured Books -->
+  <section id="featured" class="grid-section">
+    <div class="section-header">
+      <h2>📚 Featured Books</h2>
+      <button id="refreshFeatured" title="Refresh Books">🔄</button>
+    </div>
+    <div class="grid" id="featuredGrid">
+      <!-- injected by JS -->
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section id="tools" class="grid-section tools">
+    <h2>🕰️ Prayer & Tools</h2>
+    <div class="tools-grid">
+      <div class="widget prayer">
+        <h3>Prayer Times</h3>
+        <ul id="prayerList"></ul>
+      </div>
+      <div class="widget hijri">
+        <h3>Hijri Calendar</h3>
+        <div id="hijriDate"></div>
+      </div>
+      <div class="widget qibla">
+        <h3>Qibla Compass</h3>
+        <div id="compass"></div>
+      </div>
+      <div class="widget converter">
+        <h3>Date Converter</h3>
+        <input type="date" id="greg" />
+        <button id="convertBtn">Convert</button>
+        <div id="converted"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Uploads -->
+  <section id="latest" class="grid-section">
+    <h2>🆕 Latest Uploads</h2>
+    <div class="grid" id="latestGrid">
+      <!-- injected by JS -->
+    </div>
+    <button id="showMoreLatest" class="btn">Show More</button>
+  </section>
+
+  <!-- Blog Highlights -->
+  <section id="blog" class="grid-section blog-grid">
+    <h2>📝 Blog & Articles</h2>
+    <div class="grid">
+      <article><img src="images/modern_issues.jpg" alt="Modern Issues" loading="lazy"/><h3>Modern Challenges</h3></article>
+      <article><img src="images/spirituality.jpg" alt="Spirituality" loading="lazy"/><h3>Spiritual Growth</h3></article>
+      <article><img src="images/heritage.jpg" alt="Heritage" loading="lazy"/><h3>Islamic Heritage</h3></article>
+      <article><img src="images/fiqh.jpg" alt="Fiqh Explained" loading="lazy"/><h3>Fiqh Explained</h3></article>
+    </div>
+  </section>
+
+  <!-- Floating Dua & Back to Top -->
+  <a href="request.html" class="floating-dua">🤲</a>
+  <button id="backToTop" title="Back to top">↑</button>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div><h4>About</h4><p>Books of Ilm is your free PDF library on Islam.</p></div>
+      <div><h4>Sitemap</h4><ul><li><a href="#hero">Home</a></li><li><a href="#featured">Featured</a></li><li><a href="knowledge.html">All Books</a></li></ul></div>
+      <div><h4>Contact</h4><p>info@booksofilm.org</p></div>
+      <div><h4>Donate</h4><p><a href="#donate">Support Us</a></p></div>
+    </div>
+    <p>&copy; 2025 Books of Ilm. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
