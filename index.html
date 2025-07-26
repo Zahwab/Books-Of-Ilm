@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Books of Ilm – PDF Library</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://js.stripe.com/v3/"></script>
   <script defer src="script.js"></script>
 </head>
 <body>
@@ -24,7 +25,6 @@
         </li>
         <li><a href="#tools">Tools</a></li>
         <li><a href="#latest">Latest Uploads</a></li>
-        <li><a href="#blog">Blog</a></li>
         <li><a href="#donate">Donate</a></li>
       </ul>
     </nav>
@@ -35,90 +35,133 @@
         <option value="bn">BN</option>
       </select>
       <div class="search-wrapper">
-        <input id="search" type="search" placeholder="Search books…" />
+        <input id="search" type="search" placeholder="Search books…"/>
         <span id="clearSearch">✕</span>
       </div>
-      <button id="darkToggle">🌙</button>
+      <button id="darkToggle" title="Toggle dark mode">🌙</button>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section id="hero" class="hero">
-    <div class="hero-content">
+    <div class="hero-content container">
       <h1>Books of Ilm</h1>
-      <p>Your free library of authentic PDF books on Islam.</p>
-      <a href="#featured" class="btn btn-cta">Browse Books</a>
+      <p>Your free PDF library of authentic Islamic knowledge.</p>
+      <a href="#featured" class="btn btn-cta">Browse Featured</a>
     </div>
+    <div class="wave wave-bottom"></div>
   </section>
 
   <!-- Featured Books -->
-  <section id="featured" class="grid-section">
+  <section id="featured" class="grid-section container alt">
     <div class="section-header">
       <h2>📚 Featured Books</h2>
-      <button id="refreshFeatured" title="Refresh Books">🔄</button>
+      <button id="refreshFeatured" title="Refresh list">🔄</button>
     </div>
-    <div class="grid" id="featuredGrid">
-      <!-- injected by JS -->
-    </div>
+    <div class="grid" id="featuredGrid"></div>
+    <div class="wave wave-top"></div>
   </section>
 
   <!-- Tools Section -->
-  <section id="tools" class="grid-section tools">
-    <h2>🕰️ Prayer & Tools</h2>
+  <section id="tools" class="grid-section container">
+    <div class="section-header">
+      <h2>🕰️ Prayer & Tools</h2>
+    </div>
     <div class="tools-grid">
       <div class="widget prayer">
         <h3>Prayer Times</h3>
+        <label for="calcMethod">Method</label>
+        <select id="calcMethod">
+          <option value="8">Umm al-Qura</option>
+          <option value="5">Karachi</option>
+        </select>
         <ul id="prayerList"></ul>
       </div>
       <div class="widget hijri">
-        <h3>Hijri Calendar</h3>
-        <div id="hijriDate"></div>
+        <h3>Hijri Date</h3>
+        <div id="hijriDate">Loading…</div>
       </div>
       <div class="widget qibla">
-        <h3>Qibla Compass</h3>
-        <div id="compass"></div>
+        <h3>Qibla Direction</h3>
+        <div id="compass">Loading…</div>
       </div>
       <div class="widget converter">
         <h3>Date Converter</h3>
-        <input type="date" id="greg" />
-        <button id="convertBtn">Convert</button>
+        <input type="date" id="greg"/>
+        <button id="convertBtn" class="btn">Convert</button>
         <div id="converted"></div>
       </div>
     </div>
+    <div class="wave wave-bottom"></div>
   </section>
 
   <!-- Latest Uploads -->
-  <section id="latest" class="grid-section">
-    <h2>🆕 Latest Uploads</h2>
-    <div class="grid" id="latestGrid">
-      <!-- injected by JS -->
+  <section id="latest" class="grid-section container alt">
+    <div class="section-header">
+      <h2>🆕 Latest Uploads</h2>
     </div>
-    <button id="showMoreLatest" class="btn">Show More</button>
+    <div class="grid" id="latestGrid"></div>
+    <button id="showMoreLatest" class="btn btn-center">Show More</button>
+    <div class="wave wave-top"></div>
   </section>
 
-  <!-- Blog Highlights -->
-  <section id="blog" class="grid-section blog-grid">
-    <h2>📝 Blog & Articles</h2>
-    <div class="grid">
-      <article><img src="images/modern_issues.jpg" alt="Modern Issues" loading="lazy"/><h3>Modern Challenges</h3></article>
-      <article><img src="images/spirituality.jpg" alt="Spirituality" loading="lazy"/><h3>Spiritual Growth</h3></article>
-      <article><img src="images/heritage.jpg" alt="Heritage" loading="lazy"/><h3>Islamic Heritage</h3></article>
-      <article><img src="images/fiqh.jpg" alt="Fiqh Explained" loading="lazy"/><h3>Fiqh Explained</h3></article>
+  <!-- Donate Section -->
+  <section id="donate" class="donate-section container">
+    <h2>💖 Support Us</h2>
+    <p>Your donations keep these books free and accessible. Choose any method:</p>
+    <div class="donate-grid">
+      <div class="donate-card paypal">
+        <img src="images/paypal.svg" alt="PayPal"/>
+        <h3>PayPal</h3>
+        <a href="https://www.paypal.com/donate?hosted_button_id=YOUR_ID" target="_blank" class="btn">Donate via PayPal</a>
+      </div>
+      <div class="donate-card stripe">
+        <img src="images/credit-card.svg" alt="Card"/>
+        <h3>Credit / Debit Card</h3>
+        <button id="stripeBtn" class="btn">Donate with Card</button>
+      </div>
+      <div class="donate-card upi">
+        <img src="images/upi.svg" alt="UPI"/>
+        <h3>UPI (India)</h3>
+        <img src="images/upi-qr.png" alt="Scan UPI" class="qr"/>
+        <p>Scan with Google Pay, PhonePe, etc.</p>
+      </div>
+      <div class="donate-card bank">
+        <img src="images/bank.svg" alt="Bank"/>
+        <h3>Bank Transfer</h3>
+        <ul>
+          <li><strong>Account:</strong> Books of Ilm</li>
+          <li><strong>No:</strong> 1234567890</li>
+          <li><strong>IFSC:</strong> ABCD0123456</li>
+          <li><strong>Bank:</strong> Your Bank Name</li>
+        </ul>
+      </div>
     </div>
+    <div class="wave wave-top"></div>
   </section>
 
-  <!-- Floating Dua & Back to Top -->
-  <a href="request.html" class="floating-dua">🤲</a>
-  <button id="backToTop" title="Back to top">↑</button>
+  <!-- Feedback & Back-to-Top -->
+  <button id="feedbackBtn" class="floating-feedback" title="Report Issue / Request Book">📝</button>
+  <button id="backToTop" class="floating-top" title="Back to Top">↑</button>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-grid">
-      <div><h4>About</h4><p>Books of Ilm is your free PDF library on Islam.</p></div>
-      <div><h4>Sitemap</h4><ul><li><a href="#hero">Home</a></li><li><a href="#featured">Featured</a></li><li><a href="knowledge.html">All Books</a></li></ul></div>
-      <div><h4>Contact</h4><p>info@booksofilm.org</p></div>
-      <div><h4>Donate</h4><p><a href="#donate">Support Us</a></p></div>
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3>Report Issue / Request Book</h3>
+      <form id="feedbackForm">
+        <input type="text" id="fbName" placeholder="Your Name" required/>
+        <input type="email" id="fbEmail" placeholder="Your Email" required/>
+        <textarea id="fbMessage" placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+      <div id="fbThanks" class="thank-you" style="display:none;">
+        Thanks! We’ve received your request.
+      </div>
     </div>
+  </div>
+
+  <footer class="container">
     <p>&copy; 2025 Books of Ilm. All rights reserved.</p>
   </footer>
 
