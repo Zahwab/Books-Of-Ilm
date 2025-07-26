@@ -1,15 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Books of Ilm – PDF Library</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://js.stripe.com/v3/"></script>
-  <script defer src="script.js"></script>
-</head>
-<body>
 
+  <style>
+ /* 0. IMPORT & ROOT VARIABLES */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:       #fafafa;
+  --fg:       #1a1a1a;
+  --muted:    #4a4a4a;
+  --surface:  #ffffff;
+  --border:   #d8d8d8;
+  --primary:  #00796b;
+  --accent:   #ff8f00;
+  --wave:     #e0f2f1;
+  --alt:      #f1fcfb;
+}
+
+body.dark {
+  --bg:       #121212;
+  --fg:       #e4e4e4;
+  --muted:    #aaaaaa;
+  --surface:  #1e1e1e;
+  --border:   #333333;
+  --primary:  #26a69a;
+  --accent:   #ffb74d;
+  --wave:     #1a1a1a;
+  --alt:      #232323;
+}
+
+/* 1. RESET & BASE */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 18px/1.6 'Inter', sans-serif;
+  letter-spacing: .3px;
+  transition: background .3s, color .3s;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--surface);
+}
+
+h1, h2, h3, h4 {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: .5px;
+  margin-bottom: .5em;
+}
+h1 { font-size:2.8rem; }
+h2 { font-size:2.2rem; }
+h3 { font-size:1.6rem; }
+
+p, ul, ol, li, label {
+  margin-bottom:1em;
+  color: var(--fg);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .2s;
+}
+a:hover, a:focus {
+  color: var(--accent);
+  outline: 2px dotted var(--accent);
+}
+
+/* 2. LAYOUT CONTAINERS */
+.container {
+  max-width:1200px;
+  width:90%;
+  margin:0 auto;
+  padding:3em 0;
+}
+.alt { background: var(--alt); }
+
+/* 3. NAVBAR */
+.sticky {
+  position:sticky; top:0;
+  display:flex; justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(6px);
+  padding:1em 2%;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+  z-index:1000;
+}
+body.dark .sticky {
+  background:rgba(18,18,18,.95);
+}
+
+.logo { font-size:1.5em; color:var(--primary); font-weight:600; }
+.menu {
+  list-style:none;
+  display:flex;
+  gap:1.5em;
+}
+.menu a {
+  padding:.2em;
+  color: var(--fg);
+}
+.menu a:hover, .menu a:focus {
+  color: var(--primary);
+  outline: 2px dotted var(--primary);
+}
+
+.has-sub { position:relative; }
+.submenu {
+  display:none;
+  position:absolute;
+  top:100%; left:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  list-style:none;
+  padding:.5em 0;
+}
+.has-sub:hover .submenu,
+.has-sub:focus-within .submenu {
+  display:block;
+}
+
+
+/* 5. HERO & CTA */
+.hero {
+  position:relative;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  color:var(--surface);
+  height:60vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 1em;
+}
+.hero h1 { font-size:3rem; margin-bottom:.5em; }
+.hero p { font-size:1.2rem; }
+.btn-cta {
+  margin-top:1em;
+  background:var(--surface);
+  color:var(--primary);
+  padding:.75em 1.5em;
+  border-radius:6px;
+  font-weight:600;
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s, box-shadow .2s;
+}
+.btn-cta:hover, .btn-cta:focus {
+  transform:scale(1.05);
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  outline:2px solid var(--accent);
+}
+
+/* 6. WAVE ANIMATION */
+.wave {
+  position:absolute;
+  left:0; width:100%; height:60px;
+  background:var(--wave);
+  opacity:1;
+  animation:wavePulse 6s infinite ease-in-out;
+}
+.wave-top {
+  top:-1px;
+  clip-path: polygon(
+    0% 100%, 25% 70%, 50% 100%,
+    75% 70%, 100% 100%, 100% 0%, 0% 0%
+  );
+}
+.wave-bottom {
+  bottom:-1px;
+  clip-path: polygon(
+    0% 0%, 25% 30%, 50% 0%,
+    75% 30%, 100% 0%, 100% 100%, 0% 100%
+  );
+}
+@keyframes wavePulse {
+  0%,100% { transform: scaleY(1); }
+  50%     { transform: scaleY(1.02); }
+}
+
+/* 7. SECTIONS & HEADERS */
+.section-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:1em;
+}
+.section-header h2 {
+  position:relative;
+  font-size:2rem;
+  font-weight:600;
+}
+.section-header h2::after {
+  content:'';
+  position:absolute;
+  left:0; bottom:-6px;
+  width:50px; height:3px;
+  background:var(--accent);
+  transition:width .3s;
+}
+.section-header h2:hover::after,
+.section-header h2:focus-within::after {
+  width:100px;
+}
+
+/* 8. GRIDS & CARDS */
+.grid, .tools-grid, .donate-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+  gap:1.5em;
+}
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.5em;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .6s ease-out, transform .6s ease-out, box-shadow .2s ease;
+}
+.card.visible { opacity:1; transform:translateY(0); }
+.card:hover, .card:focus-within {
+  transform:translateY(-5px);
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+.card img {
+  width:100%;
+  border-radius:4px;
+  margin-bottom:1em;
+}
+.card h3 { margin-bottom:.5em; color:var(--fg); }
+.card .btn {
+  display:inline-block;
+  margin-top:1em;
+  background:var(--primary);
+  color:var(--surface);
+  padding:.6em 1.2em;
+  border-radius:4px;
+  font-weight:500;
+  transition:background .2s, box-shadow .2s;
+}
+.card .btn:hover, .card .btn:focus {
+  background:var(--accent);
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  outline:2px solid var(--accent);
+}
+
+/* 9. WIDGETS & DONATE CARDS */
+.widget, .donate-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.5em;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  transition:transform .2s, box-shadow .2s;
+}
+.widget:hover, .donate-card:hover,
+.widget:focus-within, .donate-card:focus-within {
+  transform:translateY(-5px);
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+.widget h3, .donate-card h3 { margin-bottom:.8em; color:var(--fg); }
+
+/* 10. DONATE SECTION */
+.donate-section {
+  background:var(--primary);
+  color:var(--surface);
+  text-align:center;
+  padding:3em 0;
+}
+.donate-card img.qr {
+  display:block;
+  margin:1em auto;
+  width:120px;
+}
+.donate-card ul {
+  list-style:none;
+  padding:0;
+  color:var(--surface);
+}
+.donate-card ul li {
+  margin-bottom:.5em;
+  font-size:.95rem;
+}
+
+/* 11. FLOATING BUTTONS */
+.floating-feedback, .floating-top {
+  position:fixed;
+  right:20px;
+  border:none;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--fg);
+  padding:.8em;
+  font-size:1.4em;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  cursor:pointer;
+  transition:background .2s, transform .2s;
+  display:none;
+}
+.floating-feedback:hover, .floating-feedback:focus,
+.floating-top:hover, .floating-top:focus {
+  background:var(--primary);
+  transform:scale(1.1);
+  outline:2px solid var(--accent);
+}
+
+/* 12. MODAL */
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  align-items:center;
+  justify-content:center;
+  padding:1em;
+  z-index:2000;
+}
+.modal-content {
+  background:var(--surface);
+  padding:2em;
+  border-radius:8px;
+  max-width:400px;
+  width:100%;
+  position:relative;
+  color:var(--fg);
+}
+.close-btn {
+  position:absolute;
+  top:.5em;
+  right:.5em;
+  font-size:1.5em;
+  cursor:pointer;
+}
+
+/* 13. RIPPLE EFFECT */
+.btn {
+  position:relative;
+  overflow:hidden;
+}
+.btn .ripple {
+  position:absolute;
+  width:80px; height:80px;
+  background:rgba(255,255,255,.4);
+  border-radius:50%;
+  transform:scale(0);
+  animation:ripple .6s ease-out;
+}
+@keyframes ripple {
+  to { transform:scale(4); opacity:0; }
+}
+
+/* 14. FOOTER & RESPONSIVE */
+footer {
+  text-align:center;
+  padding:2em 0;
+  color:var(--muted);
+}
+
+@media (max-width:768px) {
+  .hero h1 { font-size:2.2rem; }
+  .donate-grid { grid-template-columns:1fr; }
+}
+
+  </style>
+</head>
+
+<body>
   <!-- Sticky Navbar -->
   <header class="sticky">
     <div class="logo">Books of Ilm</div>
@@ -34,10 +402,6 @@
         <option value="ar">AR</option>
         <option value="bn">BN</option>
       </select>
-      <div class="search-wrapper">
-        <input id="search" type="search" placeholder="Search books…"/>
-        <span id="clearSearch">✕</span>
-      </div>
       <button id="darkToggle" title="Toggle dark mode">🌙</button>
     </div>
   </header>
@@ -87,7 +451,7 @@
       </div>
       <div class="widget converter">
         <h3>Date Converter</h3>
-        <input type="date" id="greg"/>
+        <input type="date" id="greg" />
         <button id="convertBtn" class="btn">Convert</button>
         <div id="converted"></div>
       </div>
@@ -111,23 +475,25 @@
     <p>Your donations keep these books free and accessible. Choose any method:</p>
     <div class="donate-grid">
       <div class="donate-card paypal">
-        <img src="images/paypal.svg" alt="PayPal"/>
+        <img src="images/paypal.svg" alt="PayPal" />
         <h3>PayPal</h3>
-        <a href="https://www.paypal.com/donate?hosted_button_id=YOUR_ID" target="_blank" class="btn">Donate via PayPal</a>
+        <a href="https://www.paypal.com/donate?hosted_button_id=YOUR_ID" target="_blank" class="btn">
+          Donate via PayPal
+        </a>
       </div>
       <div class="donate-card stripe">
-        <img src="images/credit-card.svg" alt="Card"/>
+        <img src="images/credit-card.svg" alt="Card" />
         <h3>Credit / Debit Card</h3>
         <button id="stripeBtn" class="btn">Donate with Card</button>
       </div>
       <div class="donate-card upi">
-        <img src="images/upi.svg" alt="UPI"/>
+        <img src="images/upi.svg" alt="UPI" />
         <h3>UPI (India)</h3>
-        <img src="images/upi-qr.png" alt="Scan UPI" class="qr"/>
+        <img src="images/upi-qr.png" alt="Scan UPI" class="qr" />
         <p>Scan with Google Pay, PhonePe, etc.</p>
       </div>
       <div class="donate-card bank">
-        <img src="images/bank.svg" alt="Bank"/>
+        <img src="images/bank.svg" alt="Bank" />
         <h3>Bank Transfer</h3>
         <ul>
           <li><strong>Account:</strong> Books of Ilm</li>
@@ -137,10 +503,11 @@
         </ul>
       </div>
     </div>
-    <div class="wave wave-top"></div>
+    <!-- bottom wave for donate section -->
+    <div class="wave wave-bottom"></div>
   </section>
 
-  <!-- Feedback & Back-to-Top -->
+  <!-- Floating Buttons -->
   <button id="feedbackBtn" class="floating-feedback" title="Report Issue / Request Book">📝</button>
   <button id="backToTop" class="floating-top" title="Back to Top">↑</button>
 
@@ -150,8 +517,8 @@
       <span class="close-btn">&times;</span>
       <h3>Report Issue / Request Book</h3>
       <form id="feedbackForm">
-        <input type="text" id="fbName" placeholder="Your Name" required/>
-        <input type="email" id="fbEmail" placeholder="Your Email" required/>
+        <input type="text" id="fbName" placeholder="Your Name" required />
+        <input type="email" id="fbEmail" placeholder="Your Email" required />
         <textarea id="fbMessage" placeholder="Your Message" rows="4" required></textarea>
         <button type="submit" class="btn">Submit</button>
       </form>
@@ -165,5 +532,261 @@
     <p>&copy; 2025 Books of Ilm. All rights reserved.</p>
   </footer>
 
+  <script src="https://js.stripe.com/v3/"></script>
+   <script>
+    //───────────────────────────────────────────────────────────────
+    // A) DARK MODE MEMORY
+    //───────────────────────────────────────────────────────────────
+    const darkToggle = document.getElementById('darkToggle');
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    }
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('dark', document.body.classList.contains('dark'));
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // B) LANGUAGE SWITCH & DIRECTION
+    //───────────────────────────────────────────────────────────────
+    const langSwitch = document.getElementById('langSwitch');
+    langSwitch.addEventListener('change', () => {
+      document.documentElement.lang = langSwitch.value;
+      document.documentElement.dir  = langSwitch.value === 'ar' ? 'rtl' : 'ltr';
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // C) BACK TO TOP & FEEDBACK BUTTONS
+    //───────────────────────────────────────────────────────────────
+    const backToTop  = document.getElementById('backToTop');
+    const feedbackBtn = document.getElementById('feedbackBtn');
+    window.addEventListener('scroll', () => {
+      const show = window.scrollY > 400;
+      [ backToTop, feedbackBtn ].forEach(btn => {
+        btn.style.display = show ? 'block' : 'none';
+      });
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // E) FEATURED BOOKS WITH REFRESH
+    //───────────────────────────────────────────────────────────────
+    const allFeatured = [
+      { cover:'covers/quran_management.jpg', title:'Quran & Management', file:'quran_management.pdf', desc:'Management lessons from the Quran.' },
+      { cover:'covers/tafsir_insights.jpg', title:'Tafsir Insights',       file:'tafsir_insights.pdf', desc:'Deep exegesis of key verses.' },
+      { cover:'covers/islamic_history.jpg', title:'Islamic History',      file:'islamic_history.pdf', desc:'From the Prophet’s era onward.' },
+      { cover:'covers/fiqh_simplified.jpg', title:'Fiqh Simplified',      file:'fiqh_simplified.pdf', desc:'Everyday rulings made easy.' },
+      { cover:'covers/spiritual_practices.jpg', title:'Spiritual Practices',file:'spiritual_practices.pdf', desc:'Daily routines for heart.' },
+      { cover:'covers/prophetic_character.jpg', title:'Prophetic Character',file:'prophetic_character.pdf', desc:'Manners of the Prophet.' }
+    ];
+    const featuredGrid = document.getElementById('featuredGrid');
+    document.getElementById('refreshFeatured').addEventListener('click', () => renderFeatured());
+    function renderFeatured(count = 4) {
+      featuredGrid.innerHTML = '';
+      allFeatured
+        .sort(() => Math.random() - .5)
+        .slice(0, count)
+        .forEach(book => createCard(book, featuredGrid));
+    }
+    renderFeatured();
+
+    //───────────────────────────────────────────────────────────────
+    // F) LATEST UPLOADS WITH BATCHING
+    //───────────────────────────────────────────────────────────────
+    const latestUploads = [
+      { cover:'uploads/book1.jpg', title:'New Tafsir Release', file:'new_tafsir.pdf', desc:'Makki verses commentary.' },
+      { cover:'uploads/book2.jpg', title:'Modern Fiqh Guide', file:'modern_fiqh.pdf', desc:'Fiqh for today’s challenges.' },
+      { cover:'uploads/book3.jpg', title:'Islamic Finance',  file:'islamic_finance.pdf', desc:'Shariah-compliant principles.' },
+      { cover:'uploads/book4.jpg', title:'Sufi Insights',    file:'sufi_insights.pdf',  desc:'Inner dimensions of worship.' },
+      { cover:'uploads/book5.jpg', title:'Arabic Grammar',   file:'arabic_grammar.pdf', desc:'Classical Arabic rules.' },
+      { cover:'uploads/book6.jpg', title:'Ethics in Islam',  file:'ethics.pdf',           desc:'Moral conduct in Islam.' }
+    ];
+    let latestIndex = 0, perBatch = 4;
+    const latestGrid = document.getElementById('latestGrid');
+    const showMoreBtn = document.getElementById('showMoreLatest');
+    showMoreBtn.addEventListener('click', loadLatest);
+    function loadLatest() {
+      latestUploads
+        .slice(latestIndex, latestIndex + perBatch)
+        .forEach(book => createCard(book, latestGrid));
+      latestIndex += perBatch;
+      if (latestIndex >= latestUploads.length) showMoreBtn.style.display = 'none';
+    }
+    loadLatest();
+
+    //───────────────────────────────────────────────────────────────
+    // G) CARD CREATION & DOWNLOAD COUNTER
+    //───────────────────────────────────────────────────────────────
+    function getCount(key) { return +localStorage.getItem(key) || 0; }
+    function incCount(key) { localStorage.setItem(key, getCount(key) + 1); }
+    function createCard(book, container) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('data-title', book.title);
+      card.setAttribute('data-desc', book.desc);
+      card.innerHTML = `
+        <img loading="lazy" src="${book.cover}" alt="${book.title}"/>
+        <h3>${book.title}</h3>
+        <a href="pdfs/${book.file}" class="btn" download>Download PDF</a>
+        <div class="count">Downloaded: <span>${getCount(book.file)}</span></div>
+      `;
+      card.querySelector('a.btn').addEventListener('click', () => {
+        incCount(book.file);
+        card.querySelector('.count span').textContent = getCount(book.file);
+      });
+      container.appendChild(card);
+      observer.observe(card);
+    }
+
+    //───────────────────────────────────────────────────────────────
+    // H) ON-SCROLL FADE-IN FOR CARDS & WAVES & FOOTER
+    //───────────────────────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          if (e.target.classList.contains('wave')) {
+            e.target.style.opacity = '1';
+          }
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold:0.1 });
+
+    // observe all waves
+    document.querySelectorAll('.wave').forEach(w => observer.observe(w));
+    // observe the footer too (you can remove if no fade needed)
+    observer.observe(document.querySelector('footer'));
+
+    //───────────────────────────────────────────────────────────────
+    // I) SMOOTH SCROLL FOR INTERNAL LINKS
+    //───────────────────────────────────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(anchor.getAttribute('href'))
+          .scrollIntoView({ behavior:'smooth' });
+      });
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // J) GEOLOCATION → PRAYER, HIJRI & QIBLA VIA ALADHAN
+    //───────────────────────────────────────────────────────────────
+    const prayerList = document.getElementById('prayerList');
+    const hijriDate  = document.getElementById('hijriDate');
+    const compass    = document.getElementById('compass');
+    const calcMethod = document.getElementById('calcMethod');
+
+    navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, {
+      enableHighAccuracy:true, timeout:10000, maximumAge:0
+    });
+
+    function onGeoSuccess({coords:{latitude:lat, longitude:lng}}) {
+      loadPrayerHijri(lat,lng);
+      loadQibla(lat,lng);
+    }
+    function onGeoError(err) {
+      console.warn('Geolocation failed:', err.message);
+      // default to Makkah
+      loadPrayerHijri(21.422487,39.826206);
+      loadQibla(21.422487,39.826206);
+    }
+    calcMethod.addEventListener('change', () => {
+      navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+    });
+
+    function loadPrayerHijri(lat,lng) {
+      fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${calcMethod.value}`)
+        .then(r => r.json())
+        .then(json => {
+          const t = json.data.timings, h = json.data.date.hijri;
+          prayerList.innerHTML = '';
+          ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(name => {
+            const li = document.createElement('li');
+            li.textContent = `${name}: ${t[name]}`;
+            prayerList.appendChild(li);
+          });
+          hijriDate.textContent = `${h.day} ${h.month.en} ${h.year}`;
+        })
+        .catch(e => console.error('Aladhan error:', e));
+    }
+    function loadQibla(lat,lng) {
+      fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`)
+        .then(r => r.json())
+        .then(json => {
+          compass.textContent = `${json.data.direction.toFixed(1)}° from North`;
+        })
+        .catch(e => console.error('Qibla API error:', e));
+    }
+
+    //───────────────────────────────────────────────────────────────
+    // K) DATE CONVERTER
+    //───────────────────────────────────────────────────────────────
+    const gregInput = document.getElementById('greg');
+    const convertBtn = document.getElementById('convertBtn');
+    const converted  = document.getElementById('converted');
+    convertBtn.addEventListener('click', () => {
+      const d = new Date(gregInput.value);
+      if (isNaN(d)) return converted.textContent = 'Invalid date';
+      converted.textContent = new Intl.DateTimeFormat('en-u-ca-islamic',{
+        day:'numeric', month:'long', year:'numeric'
+      }).format(d);
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // L) STRIPE CHECKOUT FOR CARD DONATIONS
+    //───────────────────────────────────────────────────────────────
+    const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
+    document.getElementById('stripeBtn').addEventListener('click', () => {
+      fetch('/create-stripe-session',{method:'POST'})
+        .then(r=>r.json())
+        .then(data=>stripe.redirectToCheckout({sessionId:data.sessionId}))
+        .catch(e=>console.error('Stripe error:',e));
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // M) FEEDBACK MODAL HANDLING
+    //───────────────────────────────────────────────────────────────
+    const feedbackModal = document.getElementById('feedbackModal');
+    const closeBtn      = feedbackModal.querySelector('.close-btn');
+    const feedbackForm  = document.getElementById('feedbackForm');
+    const thankYouEl    = document.getElementById('fbThanks');
+
+    feedbackBtn.addEventListener('click', () => {
+      feedbackModal.style.display = 'flex';
+    });
+    closeBtn.addEventListener('click', () => {
+      feedbackModal.style.display = 'none';
+    });
+    window.addEventListener('click', e => {
+      if(e.target === feedbackModal) feedbackModal.style.display = 'none';
+    });
+    feedbackForm.addEventListener('submit', e => {
+      e.preventDefault();
+      console.log('Feedback submitted:', {
+        name:feedbackForm.fbName.value.trim(),
+        email:feedbackForm.fbEmail.value.trim(),
+        msg:feedbackForm.fbMessage.value.trim(),
+        date:new Date().toISOString()
+      });
+      feedbackForm.style.display = 'none';
+      thankYouEl.style.display = 'block';
+    });
+
+    //───────────────────────────────────────────────────────────────
+    // N) RIPPLE EFFECT ON ALL .btn
+    //───────────────────────────────────────────────────────────────
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const circle = document.createElement('span');
+        circle.className = 'ripple';
+        btn.appendChild(circle);
+        setTimeout(() => circle.remove(), 600);
+      });
+    });
+  </script>
 </body>
+
 </html>
