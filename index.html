@@ -5,44 +5,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Books of Ilm – PDF Library</title>
-
   <style>
- /* 0. IMPORT & ROOT VARIABLES */
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 0. IMPORT & ROOT VARIABLES                                                 */
+/*─────────────────────────────────────────────────────────────────────────────*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg:       #fafafa;
-  --fg:       #1a1a1a;
-  --muted:    #4a4a4a;
-  --surface:  #ffffff;
-  --border:   #d8d8d8;
-  --primary:  #00796b;
-  --accent:   #ff8f00;
-  --wave:     #e0f2f1;
-  --alt:      #f1fcfb;
+  --bg: #fafafa;
+  --fg: #1a1a1a;
+  --muted: #4a4a4a;
+  --surface: #ffffff;
+  --border: #d8d8d8;
+  --primary: #00796b;
+  --accent: #ff8f00;
+  --alt: #f1fcfb;
+  --hamburger-line: #4af;
+  --hamburger-border: #333;
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-darkmode: rgba(0, 255, 255, 0.2);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+  --transition: 0.3s ease;
 }
 
 body.dark {
-  --bg:       #121212;
-  --fg:       #e4e4e4;
-  --muted:    #aaaaaa;
-  --surface:  #1e1e1e;
-  --border:   #333333;
-  --primary:  #26a69a;
-  --accent:   #ffb74d;
-  --wave:     #1a1a1a;
-  --alt:      #232323;
+  --bg: #121212;
+  --fg: #eaeaea;
+  --muted: #b0b0b0;
+  --surface: #1e1e1e;
+  --border: #2c2c2c;
+  --primary: #26c6da;
+  --accent: #ffb956;
+  --alt: #181818;
 }
 
-/* 1. RESET & BASE */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 1. RESET & BASE                                                            */
+/*─────────────────────────────────────────────────────────────────────────────*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font: 18px/1.6 'Inter', sans-serif;
-  letter-spacing: .3px;
-  transition: background .3s, color .3s;
+  font: clamp(16px, 1.8vw, 18px)/1.6 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  transition: background var(--transition), color var(--transition);
 }
 
 ::selection {
@@ -53,15 +66,17 @@ body {
 h1, h2, h3, h4 {
   color: var(--fg);
   font-weight: 600;
-  letter-spacing: .5px;
-  margin-bottom: .5em;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5em;
 }
-h1 { font-size:2.8rem; }
-h2 { font-size:2.2rem; }
-h3 { font-size:1.6rem; }
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.25rem; }
 
 p, ul, ol, li, label {
-  margin-bottom:1em;
+  margin-bottom: 1em;
   color: var(--fg);
 }
 
@@ -69,318 +84,489 @@ a {
   color: var(--primary);
   text-decoration: none;
   font-weight: 500;
-  transition: color .2s;
+  transition: color 0.2s;
 }
-a:hover, a:focus {
+
+a:hover,
+a:focus {
   color: var(--accent);
   outline: 2px dotted var(--accent);
 }
 
-/* 2. LAYOUT CONTAINERS */
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 2. LAYOUT CONTAINERS                                                       */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .container {
-  max-width:1200px;
-  width:90%;
-  margin:0 auto;
-  padding:3em 0;
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 3em 0;
 }
-.alt { background: var(--alt); }
 
-/* 3. NAVBAR */
+.alt {
+  background: var(--alt);
+  border-radius: 12px;
+}
+
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 3. NAVBAR & DROPDOWNS                                                      */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .sticky {
-  position:sticky; top:0;
-  display:flex; justify-content:space-between;
-  align-items:center;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(6px);
-  padding:1em 2%;
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
-  z-index:1000;
-}
-body.dark .sticky {
-  background:rgba(18,18,18,.95);
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  padding: 1em 2%;
+  box-shadow: 0 2px 6px var(--shadow-light);
+  z-index: 1000;
+  border-radius: 0 0 12px 12px;
 }
 
-.logo { font-size:1.5em; color:var(--primary); font-weight:600; }
-.menu {
-  list-style:none;
-  display:flex;
-  gap:1.5em;
+body.dark .sticky {
+  background: rgba(18, 18, 18, 0.95);
 }
+
+.logo {
+  font-size: 1.5em;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 1.5em;
+}
+
 .menu a {
-  padding:.2em;
+  padding: 0.2em;
   color: var(--fg);
 }
-.menu a:hover, .menu a:focus {
+
+.menu a:hover,
+.menu a:focus {
   color: var(--primary);
   outline: 2px dotted var(--primary);
 }
 
-.has-sub { position:relative; }
-.submenu {
-  display:none;
-  position:absolute;
-  top:100%; left:0;
-  background:var(--surface);
-  border:1px solid var(--border);
-  list-style:none;
-  padding:.5em 0;
+.has-sub {
+  position: relative;
 }
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  list-style: none;
+  padding: 0.5em 0;
+  border-radius: 0 0 8px 8px;
+}
+
 .has-sub:hover .submenu,
 .has-sub:focus-within .submenu {
-  display:block;
+  display: block;
 }
 
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 4. HAMBURGER MENU                                                          */
+/*─────────────────────────────────────────────────────────────────────────────*/
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+}
 
-/* 5. HERO & CTA */
+.hamburger:active {
+  transform: scale(0.95);
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 5px;
+  background: var(--hamburger-line);
+  border: 2px solid var(--hamburger-border);
+  box-shadow: 2px 2px 0 var(--hamburger-border);
+  margin: 4px 0;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+  animation: pixelBounce 1.5s infinite ease-in-out;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+body.dark .hamburger {
+  background: rgba(20, 20, 20, 0.9);
+  box-shadow: 0 0 10px var(--shadow-darkmode);
+}
+
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 5. HERO & CTA                                                               */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .hero {
-  position:relative;
-  background:linear-gradient(135deg, var(--primary), var(--accent));
-  color:var(--surface);
-  height:60vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:0 1em;
+  position: relative;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--surface);
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1em;
+  border-radius: 12px;
 }
-.hero h1 { font-size:3rem; margin-bottom:.5em; }
-.hero p { font-size:1.2rem; }
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5em;
+}
+.hero p {
+  font-size: 1.2rem;
+}
 .btn-cta {
-  margin-top:1em;
-  background:var(--surface);
-  color:var(--primary);
-  padding:.75em 1.5em;
-  border-radius:6px;
-  font-weight:600;
-  position:relative;
-  overflow:hidden;
-  transition:transform .2s, box-shadow .2s;
+  margin-top: 1em;
+  background: var(--surface);
+  color: var(--primary);
+  padding: 0.75em 1.5em;
+  border-radius: 10px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.btn-cta:hover, .btn-cta:focus {
-  transform:scale(1.05);
-  box-shadow:0 6px 16px rgba(0,0,0,.15);
-  outline:2px solid var(--accent);
-}
-
-/* 6. WAVE ANIMATION */
-.wave {
-  position:absolute;
-  left:0; width:100%; height:60px;
-  background:var(--wave);
-  opacity:1;
-  animation:wavePulse 6s infinite ease-in-out;
-}
-.wave-top {
-  top:-1px;
-  clip-path: polygon(
-    0% 100%, 25% 70%, 50% 100%,
-    75% 70%, 100% 100%, 100% 0%, 0% 0%
-  );
-}
-.wave-bottom {
-  bottom:-1px;
-  clip-path: polygon(
-    0% 0%, 25% 30%, 50% 0%,
-    75% 30%, 100% 0%, 100% 100%, 0% 100%
-  );
-}
-@keyframes wavePulse {
-  0%,100% { transform: scaleY(1); }
-  50%     { transform: scaleY(1.02); }
+.btn-cta:hover,
+.btn-cta:focus {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px var(--shadow-hover);
+  outline: 2px solid var(--accent);
 }
 
-/* 7. SECTIONS & HEADERS */
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 6. SECTION HEADERS                                                          */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .section-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
 }
+
 .section-header h2 {
-  position:relative;
-  font-size:2rem;
-  font-weight:600;
+  position: relative;
+  font-size: 2rem;
+  font-weight: 600;
 }
+
 .section-header h2::after {
-  content:'';
-  position:absolute;
-  left:0; bottom:-6px;
-  width:50px; height:3px;
-  background:var(--accent);
-  transition:width .3s;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 50px;
+  height: 3px;
+  background: var(--accent);
+  transition: width var(--transition);
 }
 .section-header h2:hover::after,
 .section-header h2:focus-within::after {
-  width:100px;
+  width: 100px;
 }
 
-/* 8. GRIDS & CARDS */
-.grid, .tools-grid, .donate-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
-  gap:1.5em;
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 7. GRIDS, CARDS & WIDGETS                                                   */
+/*─────────────────────────────────────────────────────────────────────────────*/
+.grid,
+.tools-grid,
+.donate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5em;
 }
-.card {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:1.5em;
-  box-shadow:0 4px 12px rgba(0,0,0,.05);
-  opacity:0;
-  transform:translateY(20px);
-  transition:opacity .6s ease-out, transform .6s ease-out, box-shadow .2s ease;
+
+.card,
+.widget,
+.donate-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5em;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.2s ease;
 }
-.card.visible { opacity:1; transform:translateY(0); }
-.card:hover, .card:focus-within {
-  transform:translateY(-5px);
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
+
+.card.visible,
+.widget.visible,
+.donate-card.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-.card img {
-  width:100%;
-  border-radius:4px;
-  margin-bottom:1em;
+
+.card:hover,
+.card:focus-within,
+.widget:hover,
+.widget:focus-within,
+.donate-card:hover,
+.donate-card:focus-within {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--shadow-hover);
 }
-.card h3 { margin-bottom:.5em; color:var(--fg); }
+
+.card h3,
+.widget h3,
+.donate-card h3 {
+  margin-bottom: 0.8em;
+  color: var(--fg);
+}
+
+.card p {
+  font-size: 0.95rem;
+}
+
 .card .btn {
-  display:inline-block;
-  margin-top:1em;
-  background:var(--primary);
-  color:var(--surface);
-  padding:.6em 1.2em;
-  border-radius:4px;
-  font-weight:500;
-  transition:background .2s, box-shadow .2s;
+  display: inline-block;
+  margin-top: 1em;
+  background: var(--primary);
+  color: var(--surface);
+  padding: 0.6em 1.2em;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: background 0.2s, box-shadow 0.2s;
 }
-.card .btn:hover, .card .btn:focus {
-  background:var(--accent);
-  box-shadow:0 4px 12px rgba(0,0,0,.1);
-  outline:2px solid var(--accent);
+.card .btn:hover,
+.card .btn:focus {
+  background: var(--accent);
+  box-shadow: 0 4px 12px var(--shadow-hover);
+  outline: 2px solid var(--accent);
 }
 
-/* 9. WIDGETS & DONATE CARDS */
-.widget, .donate-card {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:1.5em;
-  box-shadow:0 4px 12px rgba(0,0,0,.05);
-  transition:transform .2s, box-shadow .2s;
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1em;
 }
-.widget:hover, .donate-card:hover,
-.widget:focus-within, .donate-card:focus-within {
-  transform:translateY(-5px);
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
-}
-.widget h3, .donate-card h3 { margin-bottom:.8em; color:var(--fg); }
 
-/* 10. DONATE SECTION */
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 8. DONATE SECTION                                                           */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .donate-section {
-  background:var(--primary);
-  color:var(--surface);
-  text-align:center;
-  padding:3em 0;
+  background: var(--primary);
+  color: var(--surface);
+  text-align: center;
+  padding: 3em 0;
+  border-radius: 12px;
 }
+
 .donate-card img.qr {
-  display:block;
-  margin:1em auto;
-  width:120px;
+  display: block;
+  margin: 1em auto;
+  width: 120px;
 }
+
 .donate-card ul {
-  list-style:none;
-  padding:0;
-  color:var(--surface);
+  list-style: none;
+  padding: 0;
+  color: var(--surface);
 }
+
 .donate-card ul li {
-  margin-bottom:.5em;
-  font-size:.95rem;
+  margin-bottom: 0.5em;
+  font-size: 0.95rem;
 }
 
-/* 11. FLOATING BUTTONS */
-.floating-feedback, .floating-top {
-  position:fixed;
-  right:20px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  color:var(--fg);
-  padding:.8em;
-  font-size:1.4em;
-  box-shadow:0 4px 12px rgba(0,0,0,.1);
-  cursor:pointer;
-  transition:background .2s, transform .2s;
-  display:none;
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 9. FLOATING ACTION BUTTONS                                                  */
+/*─────────────────────────────────────────────────────────────────────────────*/
+.floating-feedback,
+.floating-top {
+  position: fixed;
+  right: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--fg);
+  padding: 0.8em;
+  font-size: 1.4em;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: none;
 }
-.floating-feedback:hover, .floating-feedback:focus,
-.floating-top:hover, .floating-top:focus {
-  background:var(--primary);
-  transform:scale(1.1);
-  outline:2px solid var(--accent);
+.floating-feedback:hover,
+.floating-feedback:focus,
+.floating-top:hover,
+.floating-top:focus {
+  background: var(--primary);
+  transform: scale(1.1);
+  outline: 2px solid var(--accent);
 }
 
-/* 12. MODAL */
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 10. MODAL & RIPPLE EFFECT                                                   */
+/*─────────────────────────────────────────────────────────────────────────────*/
 .modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  align-items:center;
-  justify-content:center;
-  padding:1em;
-  z-index:2000;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  z-index: 2000;
 }
+
 .modal-content {
-  background:var(--surface);
-  padding:2em;
-  border-radius:8px;
-  max-width:400px;
-  width:100%;
-  position:relative;
-  color:var(--fg);
+  background: var(--surface);
+  padding: 2em;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  color: var(--fg);
 }
+
 .close-btn {
-  position:absolute;
-  top:.5em;
-  right:.5em;
-  font-size:1.5em;
-  cursor:pointer;
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  font-size: 1.5em;
+  cursor: pointer;
 }
 
-/* 13. RIPPLE EFFECT */
 .btn {
-  position:relative;
-  overflow:hidden;
+  position: relative;
+  overflow: hidden;
 }
+
 .btn .ripple {
-  position:absolute;
-  width:80px; height:80px;
-  background:rgba(255,255,255,.4);
-  border-radius:50%;
-  transform:scale(0);
-  animation:ripple .6s ease-out;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s ease-out;
 }
+
 @keyframes ripple {
-  to { transform:scale(4); opacity:0; }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
-/* 14. FOOTER & RESPONSIVE */
+@keyframes pixelBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 11. FOOTER                                                                  */
+/*─────────────────────────────────────────────────────────────────────────────*/
 footer {
-  text-align:center;
-  padding:2em 0;
-  color:var(--muted);
+  text-align: center;
+  padding: 2em 0;
+  color: var(--muted);
+  border-radius: 0 0 12px 12px;
 }
 
-@media (max-width:768px) {
-  .hero h1 { font-size:2.2rem; }
-  .donate-grid { grid-template-columns:1fr; }
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 12. RESPONSIVE ADJUSTMENTS                                                  */
+/*─────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 2.5rem; }
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+  .sticky {
+    position: relative;
+  }
+  .menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 70%;
+    max-width: 320px;
+    background: var(--surface);
+    -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+    box-shadow: -4px 0 12px var(--shadow-light);
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform var(--transition) ease-out;
+    padding: 2em 1.5em;
+    gap: 1em;
+    z-index: 1000;
+  }
+  body.dark .menu {
+    background: rgba(18, 18, 18, 0.95);
+  }
+  .menu.open {
+    transform: translateX(0);
+  }
+  .menu a {
+    padding: 1em 0;
+    color: var(--fg);
+  }
+  .donate-grid,
+  .grid,
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*─────────────────────────────────────────────────────────────────────────────*/
+/* 13. BODY SCROLL LOCK WHEN MENU IS OPEN                                      */
+/*─────────────────────────────────────────────────────────────────────────────*/
+body.menu-open {
+  overflow: hidden;
 }
 
   </style>
 </head>
 
-<body>
+
+ <body>
   <!-- Sticky Navbar -->
   <header class="sticky">
     <div class="logo">Books of Ilm</div>
+
     <nav>
       <ul class="menu">
         <li><a href="#hero">Home</a></li>
@@ -396,6 +582,7 @@ footer {
         <li><a href="#donate">Donate</a></li>
       </ul>
     </nav>
+
     <div class="utility">
       <select id="langSwitch">
         <option value="en">EN</option>
@@ -404,6 +591,13 @@ footer {
       </select>
       <button id="darkToggle" title="Toggle dark mode">🌙</button>
     </div>
+
+    <!-- Animated Pixel Hamburger -->
+    <button id="hamburgerBtn" class="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
   <!-- Hero Section -->
@@ -413,7 +607,6 @@ footer {
       <p>Your free PDF library of authentic Islamic knowledge.</p>
       <a href="#featured" class="btn btn-cta">Browse Featured</a>
     </div>
-    <div class="wave wave-bottom"></div>
   </section>
 
   <!-- Featured Books -->
@@ -423,7 +616,6 @@ footer {
       <button id="refreshFeatured" title="Refresh list">🔄</button>
     </div>
     <div class="grid" id="featuredGrid"></div>
-    <div class="wave wave-top"></div>
   </section>
 
   <!-- Tools Section -->
@@ -456,7 +648,6 @@ footer {
         <div id="converted"></div>
       </div>
     </div>
-    <div class="wave wave-bottom"></div>
   </section>
 
   <!-- Latest Uploads -->
@@ -466,7 +657,6 @@ footer {
     </div>
     <div class="grid" id="latestGrid"></div>
     <button id="showMoreLatest" class="btn btn-center">Show More</button>
-    <div class="wave wave-top"></div>
   </section>
 
   <!-- Donate Section -->
@@ -503,290 +693,283 @@ footer {
         </ul>
       </div>
     </div>
-    <!-- bottom wave for donate section -->
-    <div class="wave wave-bottom"></div>
   </section>
 
   <!-- Floating Buttons -->
   <button id="feedbackBtn" class="floating-feedback" title="Report Issue / Request Book">📝</button>
   <button id="backToTop" class="floating-top" title="Back to Top">↑</button>
 
-  <!-- Feedback Modal -->
-  <div id="feedbackModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h3>Report Issue / Request Book</h3>
-      <form id="feedbackForm">
-        <input type="text" id="fbName" placeholder="Your Name" required />
-        <input type="email" id="fbEmail" placeholder="Your Email" required />
-        <textarea id="fbMessage" placeholder="Your Message" rows="4" required></textarea>
-        <button type="submit" class="btn">Submit</button>
-      </form>
-      <div id="fbThanks" class="thank-you" style="display:none;">
-        Thanks! We’ve received your request.
-      </div>
-    </div>
-  </div>
-
+  <!-- Footer -->
   <footer class="container">
     <p>&copy; 2025 Books of Ilm. All rights reserved.</p>
   </footer>
-
   <script src="https://js.stripe.com/v3/"></script>
-   <script>
-    //───────────────────────────────────────────────────────────────
-    // A) DARK MODE MEMORY
-    //───────────────────────────────────────────────────────────────
-    const darkToggle = document.getElementById('darkToggle');
-    if (localStorage.getItem('dark') === 'true') {
-      document.body.classList.add('dark');
-    }
+<script>
+(function() {
+  // A) DARK MODE MEMORY
+  const darkToggle = document.getElementById('darkToggle');
+  if (darkToggle) {
+    const isDark = localStorage.getItem('dark') === 'true';
+    document.body.classList.toggle('dark', isDark);
+    darkToggle.setAttribute('aria-pressed', isDark);
     darkToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      localStorage.setItem('dark', document.body.classList.contains('dark'));
+      const darkModeOn = document.body.classList.toggle('dark');
+      localStorage.setItem('dark', darkModeOn);
+      darkToggle.setAttribute('aria-pressed', darkModeOn);
     });
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // B) LANGUAGE SWITCH & DIRECTION
-    //───────────────────────────────────────────────────────────────
-    const langSwitch = document.getElementById('langSwitch');
+  // B) LANGUAGE SWITCH & DIRECTION
+  const langSwitch = document.getElementById('langSwitch');
+  if (langSwitch) {
     langSwitch.addEventListener('change', () => {
-      document.documentElement.lang = langSwitch.value;
-      document.documentElement.dir  = langSwitch.value === 'ar' ? 'rtl' : 'ltr';
+      const lang = langSwitch.value;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     });
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // C) BACK TO TOP & FEEDBACK BUTTONS
-    //───────────────────────────────────────────────────────────────
-    const backToTop  = document.getElementById('backToTop');
-    const feedbackBtn = document.getElementById('feedbackBtn');
+  // C) BACK TO TOP & FEEDBACK BUTTON
+  const backToTop = document.getElementById('backToTop');
+  const feedbackBtn = document.getElementById('feedbackBtn');
+  if (backToTop || feedbackBtn) {
     window.addEventListener('scroll', () => {
       const show = window.scrollY > 400;
-      [ backToTop, feedbackBtn ].forEach(btn => {
-        btn.style.display = show ? 'block' : 'none';
-      });
+      if (backToTop)    backToTop.style.display    = show ? 'block' : 'none';
+      if (feedbackBtn)  feedbackBtn.style.display  = show ? 'block' : 'none';
     });
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top:0, behavior:'smooth' });
+    if (backToTop) backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    if (feedbackBtn) feedbackBtn.addEventListener('click', () => {
+      window.location.href = '/contact.html';
+    });
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // E) FEATURED BOOKS WITH REFRESH
-    //───────────────────────────────────────────────────────────────
-    const allFeatured = [
-      { cover:'covers/quran_management.jpg', title:'Quran & Management', file:'quran_management.pdf', desc:'Management lessons from the Quran.' },
-      { cover:'covers/tafsir_insights.jpg', title:'Tafsir Insights',       file:'tafsir_insights.pdf', desc:'Deep exegesis of key verses.' },
-      { cover:'covers/islamic_history.jpg', title:'Islamic History',      file:'islamic_history.pdf', desc:'From the Prophet’s era onward.' },
-      { cover:'covers/fiqh_simplified.jpg', title:'Fiqh Simplified',      file:'fiqh_simplified.pdf', desc:'Everyday rulings made easy.' },
-      { cover:'covers/spiritual_practices.jpg', title:'Spiritual Practices',file:'spiritual_practices.pdf', desc:'Daily routines for heart.' },
-      { cover:'covers/prophetic_character.jpg', title:'Prophetic Character',file:'prophetic_character.pdf', desc:'Manners of the Prophet.' }
-    ];
-    const featuredGrid = document.getElementById('featuredGrid');
-    document.getElementById('refreshFeatured').addEventListener('click', () => renderFeatured());
-    function renderFeatured(count = 4) {
-      featuredGrid.innerHTML = '';
-      allFeatured
-        .sort(() => Math.random() - .5)
-        .slice(0, count)
-        .forEach(book => createCard(book, featuredGrid));
+  // D) HAMBURGER MENU TOGGLE
+  const hamburger = document.querySelector('.hamburger');
+  const menu      = document.querySelector('.menu');
+  if (hamburger && menu) {
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Toggle menu');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      menu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.classList.toggle('menu-open', open);
+    });
+  }
+
+  // IntersectionObserver for on-scroll fade-in
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // G) CARD CREATION UTILITY
+  function createCard(book, container) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img loading="lazy" src="${book.cover}" alt="${book.title}">
+      <h3>${book.title}</h3>
+      <p>${book.desc}</p>
+      <a href="pdfs/${book.file}" class="btn" download>Download PDF</a>
+    `;
+    container.appendChild(card);
+    observer.observe(card);
+  }
+
+  // E) FEATURED BOOKS WITH REFRESH
+  const allFeatured = [
+    { cover: 'covers/quran_management.jpg',    title: 'Quran & Management',    file: 'quran_management.pdf',    desc: 'Management lessons from the Quran.' },
+    { cover: 'covers/tafsir_insights.jpg',     title: 'Tafsir Insights',       file: 'tafsir_insights.pdf',      desc: 'Deep exegesis of key verses.' },
+    { cover: 'covers/islamic_history.jpg',     title: 'Islamic History',       file: 'islamic_history.pdf',      desc: 'From the Prophet’s era onward.' },
+    { cover: 'covers/fiqh_simplified.jpg',     title: 'Fiqh Simplified',        file: 'fiqh_simplified.pdf',      desc: 'Everyday rulings made easy.' },
+    { cover: 'covers/spiritual_practices.jpg', title: 'Spiritual Practices',    file: 'spiritual_practices.pdf',  desc: 'Daily routines for heart.' },
+    { cover: 'covers/prophetic_character.jpg', title: 'Prophetic Character',    file: 'prophetic_character.pdf',  desc: 'Manners of the Prophet.' }
+  ];
+  const featuredGrid = document.getElementById('featuredGrid');
+  const refreshBtn   = document.getElementById('refreshFeatured');
+
+  function renderFeatured(count = 4) {
+    if (!featuredGrid) return;
+    featuredGrid.innerHTML = '';
+    allFeatured
+      .slice()
+      .sort(() => Math.random() - 0.5)
+      .slice(0, count)
+      .forEach(book => createCard(book, featuredGrid));
+  }
+
+  if (refreshBtn) refreshBtn.addEventListener('click', () => renderFeatured());
+  renderFeatured();
+
+  // F) LATEST UPLOADS WITH BATCHING
+  const latestUploads = [
+    { cover: 'uploads/book1.jpg', title: 'New Tafsir Release',   file: 'new_tafsir.pdf', desc: 'Makki verses commentary.' },
+    { cover: 'uploads/book2.jpg', title: 'Modern Fiqh Guide',    file: 'modern_fiqh.pdf', desc: 'Fiqh for today’s challenges.' },
+    { cover: 'uploads/book3.jpg', title: 'Islamic Finance',      file: 'islamic_finance.pdf', desc: 'Shariah-compliant principles.' },
+    { cover: 'uploads/book4.jpg', title: 'Sufi Insights',        file: 'sufi_insights.pdf', desc: 'Inner dimensions of worship.' },
+    { cover: 'uploads/book5.jpg', title: 'Arabic Grammar',       file: 'arabic_grammar.pdf', desc: 'Classical Arabic rules.' },
+    { cover: 'uploads/book6.jpg', title: 'Ethics in Islam',      file: 'ethics.pdf', desc: 'Moral conduct in Islam.' }
+  ];
+  let latestIndex = 0, perBatch = 4;
+  const latestGrid   = document.getElementById('latestGrid');
+  const showMoreBtn  = document.getElementById('showMoreLatest');
+
+  function loadLatest() {
+    if (!latestGrid) return;
+    latestUploads
+      .slice(latestIndex, latestIndex + perBatch)
+      .forEach(book => createCard(book, latestGrid));
+    latestIndex += perBatch;
+    if (latestIndex >= latestUploads.length && showMoreBtn) {
+      showMoreBtn.style.display = 'none';
     }
-    renderFeatured();
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // F) LATEST UPLOADS WITH BATCHING
-    //───────────────────────────────────────────────────────────────
-    const latestUploads = [
-      { cover:'uploads/book1.jpg', title:'New Tafsir Release', file:'new_tafsir.pdf', desc:'Makki verses commentary.' },
-      { cover:'uploads/book2.jpg', title:'Modern Fiqh Guide', file:'modern_fiqh.pdf', desc:'Fiqh for today’s challenges.' },
-      { cover:'uploads/book3.jpg', title:'Islamic Finance',  file:'islamic_finance.pdf', desc:'Shariah-compliant principles.' },
-      { cover:'uploads/book4.jpg', title:'Sufi Insights',    file:'sufi_insights.pdf',  desc:'Inner dimensions of worship.' },
-      { cover:'uploads/book5.jpg', title:'Arabic Grammar',   file:'arabic_grammar.pdf', desc:'Classical Arabic rules.' },
-      { cover:'uploads/book6.jpg', title:'Ethics in Islam',  file:'ethics.pdf',           desc:'Moral conduct in Islam.' }
-    ];
-    let latestIndex = 0, perBatch = 4;
-    const latestGrid = document.getElementById('latestGrid');
-    const showMoreBtn = document.getElementById('showMoreLatest');
+  if (showMoreBtn) {
     showMoreBtn.addEventListener('click', loadLatest);
-    function loadLatest() {
-      latestUploads
-        .slice(latestIndex, latestIndex + perBatch)
-        .forEach(book => createCard(book, latestGrid));
-      latestIndex += perBatch;
-      if (latestIndex >= latestUploads.length) showMoreBtn.style.display = 'none';
-    }
     loadLatest();
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // G) CARD CREATION & DOWNLOAD COUNTER
-    //───────────────────────────────────────────────────────────────
-    function getCount(key) { return +localStorage.getItem(key) || 0; }
-    function incCount(key) { localStorage.setItem(key, getCount(key) + 1); }
-    function createCard(book, container) {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.setAttribute('data-title', book.title);
-      card.setAttribute('data-desc', book.desc);
-      card.innerHTML = `
-        <img loading="lazy" src="${book.cover}" alt="${book.title}"/>
-        <h3>${book.title}</h3>
-        <a href="pdfs/${book.file}" class="btn" download>Download PDF</a>
-        <div class="count">Downloaded: <span>${getCount(book.file)}</span></div>
-      `;
-      card.querySelector('a.btn').addEventListener('click', () => {
-        incCount(book.file);
-        card.querySelector('.count span').textContent = getCount(book.file);
-      });
-      container.appendChild(card);
-      observer.observe(card);
-    }
+  // Observe footer fade-in
+  const footerEl = document.querySelector('footer');
+  if (footerEl) observer.observe(footerEl);
 
-    //───────────────────────────────────────────────────────────────
-    // H) ON-SCROLL FADE-IN FOR CARDS & WAVES & FOOTER
-    //───────────────────────────────────────────────────────────────
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          if (e.target.classList.contains('wave')) {
-            e.target.style.opacity = '1';
-          }
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold:0.1 });
-
-    // observe all waves
-    document.querySelectorAll('.wave').forEach(w => observer.observe(w));
-    // observe the footer too (you can remove if no fade needed)
-    observer.observe(document.querySelector('footer'));
-
-    //───────────────────────────────────────────────────────────────
-    // I) SMOOTH SCROLL FOR INTERNAL LINKS
-    //───────────────────────────────────────────────────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', e => {
-        e.preventDefault();
-        document.querySelector(anchor.getAttribute('href'))
-          .scrollIntoView({ behavior:'smooth' });
-      });
+  // I) SMOOTH SCROLL FOR INTERNAL LINKS
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
+  });
 
-    //───────────────────────────────────────────────────────────────
-    // J) GEOLOCATION → PRAYER, HIJRI & QIBLA VIA ALADHAN
-    //───────────────────────────────────────────────────────────────
-    const prayerList = document.getElementById('prayerList');
-    const hijriDate  = document.getElementById('hijriDate');
-    const compass    = document.getElementById('compass');
-    const calcMethod = document.getElementById('calcMethod');
+  // J) GEOLOCATION → PRAYER, HIJRI & QIBLA VIA ALADHAN
+  const prayerList = document.getElementById('prayerList');
+  const hijriDate  = document.getElementById('hijriDate');
+  const compass    = document.getElementById('compass');
+  const calcMethod = document.getElementById('calcMethod');
 
-    navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, {
-      enableHighAccuracy:true, timeout:10000, maximumAge:0
-    });
+  function getCalcMethod() {
+    return calcMethod?.value || '2'; // default: Muslim World League
+  }
 
-    function onGeoSuccess({coords:{latitude:lat, longitude:lng}}) {
-      loadPrayerHijri(lat,lng);
-      loadQibla(lat,lng);
-    }
-    function onGeoError(err) {
-      console.warn('Geolocation failed:', err.message);
-      // default to Makkah
-      loadPrayerHijri(21.422487,39.826206);
-      loadQibla(21.422487,39.826206);
-    }
-    calcMethod.addEventListener('change', () => {
-      navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
-    });
-
-    function loadPrayerHijri(lat,lng) {
-      fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${calcMethod.value}`)
-        .then(r => r.json())
-        .then(json => {
-          const t = json.data.timings, h = json.data.date.hijri;
+  function loadPrayerHijri(lat, lng) {
+    fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${getCalcMethod()}`)
+      .then(res => res.json())
+      .then(json => {
+        const times = json.data.timings;
+        const date  = json.data.date.hijri;
+        if (prayerList) {
           prayerList.innerHTML = '';
           ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(name => {
             const li = document.createElement('li');
-            li.textContent = `${name}: ${t[name]}`;
+            li.textContent = `${name}: ${times[name]}`;
             prayerList.appendChild(li);
           });
-          hijriDate.textContent = `${h.day} ${h.month.en} ${h.year}`;
-        })
-        .catch(e => console.error('Aladhan error:', e));
-    }
-    function loadQibla(lat,lng) {
-      fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`)
-        .then(r => r.json())
-        .then(json => {
+        }
+        if (hijriDate) {
+          hijriDate.textContent = `${date.day} ${date.month.en} ${date.year}`;
+        }
+      })
+      .catch(e => console.error('Aladhan error:', e));
+  }
+
+  function loadQibla(lat, lng) {
+    fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`)
+      .then(res => res.json())
+      .then(json => {
+        if (compass) {
           compass.textContent = `${json.data.direction.toFixed(1)}° from North`;
-        })
-        .catch(e => console.error('Qibla API error:', e));
+        }
+      })
+      .catch(e => console.error('Qibla API error:', e));
+  }
+
+  function onGeoSuccess({ coords: { latitude: lat, longitude: lng } }) {
+    loadPrayerHijri(lat, lng);
+    loadQibla(lat, lng);
+  }
+
+  function onGeoError(err) {
+    console.warn('Geolocation failed:', err.message);
+    // fallback to Makkah
+    onGeoSuccess({ coords: { latitude: 21.422487, longitude: 39.826206 } });
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    });
+    if (calcMethod) {
+      calcMethod.addEventListener('change', () => {
+        navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+      });
     }
+  } else {
+    onGeoError(new Error('Geolocation not supported'));
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // K) DATE CONVERTER
-    //───────────────────────────────────────────────────────────────
-    const gregInput = document.getElementById('greg');
-    const convertBtn = document.getElementById('convertBtn');
-    const converted  = document.getElementById('converted');
+  // K) DATE CONVERTER
+  const gregInput  = document.getElementById('greg');
+  const convertBtn = document.getElementById('convertBtn');
+  const converted  = document.getElementById('converted');
+
+  if (convertBtn && gregInput && converted) {
     convertBtn.addEventListener('click', () => {
-      const d = new Date(gregInput.value);
-      if (isNaN(d)) return converted.textContent = 'Invalid date';
-      converted.textContent = new Intl.DateTimeFormat('en-u-ca-islamic',{
-        day:'numeric', month:'long', year:'numeric'
-      }).format(d);
+      const date = new Date(gregInput.value);
+      if (isNaN(date)) {
+        converted.textContent = 'Invalid date';
+        return;
+      }
+      converted.textContent = new Intl.DateTimeFormat('en-u-ca-islamic', {
+        day:   'numeric',
+        month: 'long',
+        year:  'numeric'
+      }).format(date);
     });
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // L) STRIPE CHECKOUT FOR CARD DONATIONS
-    //───────────────────────────────────────────────────────────────
+  // L) STRIPE CHECKOUT FOR CARD DONATIONS
+  const stripeBtn = document.getElementById('stripeBtn');
+  if (stripeBtn && window.Stripe) {
     const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
-    document.getElementById('stripeBtn').addEventListener('click', () => {
-      fetch('/create-stripe-session',{method:'POST'})
-        .then(r=>r.json())
-        .then(data=>stripe.redirectToCheckout({sessionId:data.sessionId}))
-        .catch(e=>console.error('Stripe error:',e));
+    stripeBtn.addEventListener('click', () => {
+      fetch('/create-stripe-session', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
+        .catch(e => {
+          console.error('Stripe error:', e);
+          alert('Payment error. Please try again or contact support.');
+        });
     });
+  }
 
-    //───────────────────────────────────────────────────────────────
-    // M) FEEDBACK MODAL HANDLING
-    //───────────────────────────────────────────────────────────────
-    const feedbackModal = document.getElementById('feedbackModal');
-    const closeBtn      = feedbackModal.querySelector('.close-btn');
-    const feedbackForm  = document.getElementById('feedbackForm');
-    const thankYouEl    = document.getElementById('fbThanks');
+  // N) RIPPLE EFFECT ON ALL .btn
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.style.position = 'relative';
+    btn.addEventListener('click', e => {
+      const circle = document.createElement('span');
+      circle.className = 'ripple';
+      const rect = btn.getBoundingClientRect();
+      circle.style.left = `${e.clientX - rect.left}px`;
+      circle.style.top  = `${e.clientY - rect.top}px`;
+      btn.appendChild(circle);
+      setTimeout(() => circle.remove(), 600);
+    });
+  });
+})();
+</script>
 
-    feedbackBtn.addEventListener('click', () => {
-      feedbackModal.style.display = 'flex';
-    });
-    closeBtn.addEventListener('click', () => {
-      feedbackModal.style.display = 'none';
-    });
-    window.addEventListener('click', e => {
-      if(e.target === feedbackModal) feedbackModal.style.display = 'none';
-    });
-    feedbackForm.addEventListener('submit', e => {
-      e.preventDefault();
-      console.log('Feedback submitted:', {
-        name:feedbackForm.fbName.value.trim(),
-        email:feedbackForm.fbEmail.value.trim(),
-        msg:feedbackForm.fbMessage.value.trim(),
-        date:new Date().toISOString()
-      });
-      feedbackForm.style.display = 'none';
-      thankYouEl.style.display = 'block';
-    });
-
-    //───────────────────────────────────────────────────────────────
-    // N) RIPPLE EFFECT ON ALL .btn
-    //───────────────────────────────────────────────────────────────
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const circle = document.createElement('span');
-        circle.className = 'ripple';
-        btn.appendChild(circle);
-        setTimeout(() => circle.remove(), 600);
-      });
-    });
-  </script>
 </body>
 
 </html>
