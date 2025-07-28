@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Books of Ilm – For The Ummah</title>
+  <title>Books of I'lm – For The Ummah</title>
   <style>
     /* 0. IMPORT & ROOT VARIABLES */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -357,6 +357,58 @@
     }
 
     body.dark #darkToggle {
+      background: var(--surface);
+      color: var(--accent);
+      box-shadow: 0 0 10px rgba(255, 143, 0, 0.3);
+    }
+
+    /* 18. FLOATING BUTTONS */
+    .floating-top,
+    .floating-feedback {
+      position: fixed;
+      bottom: 2rem;
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.4rem;
+      background: var(--surface);
+      color: var(--primary);
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+    }
+
+    /* Positioning */
+    .floating-top {
+      right: 2rem;
+      display: none;
+      /* Hide until scroll shows it */
+    }
+
+    .floating-feedback {
+      right: 7rem;
+    }
+
+    /* Hover / Focus Effects */
+    .floating-top:hover,
+    .floating-feedback:hover,
+    .floating-top:focus,
+    .floating-feedback:focus {
+      background: var(--accent);
+      color: var(--surface);
+      transform: scale(1.1);
+      box-shadow: 0 0 16px rgba(255, 143, 0, 0.5);
+      outline: 2px solid var(--accent);
+    }
+
+    /* Dark mode */
+    body.dark .floating-top,
+    body.dark .floating-feedback {
       background: var(--surface);
       color: var(--accent);
       box-shadow: 0 0 10px rgba(255, 143, 0, 0.3);
@@ -729,7 +781,7 @@
 </head>
 <!-- Sticky Navbar -->
 <header class="sticky">
-  <div class="logo">Books of Ilm</div>
+  <div class="logo">Books of I'lm</div>
 
   <nav>
     <ul class="menu">
@@ -762,7 +814,7 @@
 <!-- Hero Section -->
 <section id="hero" class="hero">
   <div class="hero-content container">
-    <h1>Books of Ilm</h1>
+    <h1>Books of I'lm</h1>
     <p>Your free PDF library of authentic Islamic knowledge.</p>
     <a href="knowledge.html" class="btn btn-cta">See Full Library</a>
   </div>
@@ -774,9 +826,9 @@
     <h2>📚 Random Books</h2>
     <button id="refreshRandom" title="Surprise Me">🔄</button>
   </div>
- <div class="grid" id="jsonBookGrid">
-  <!-- JSON-loaded books will appear here -->
-</div>
+  <div class="grid" id="jsonBookGrid">
+    <!-- JSON-loaded books will appear here -->
+  </div>
 
 </section>
 
@@ -817,8 +869,12 @@
 
 <!-- Donate Section -->
 <section id="donate" class="donate-section container">
-  <h2>💖 Support Us</h2>
-  <p>Your donations keep these books free and accessible. Choose any method:</p>
+  <h2 style="font-size: 2.2rem; margin-bottom: 0.5em;"> 💖 <span
+      style="color: var(--surface); background: var(--accent); padding: 0.2em 0.6em; border-radius: 8px;"> Sadaqah
+      Jariyah </span> </h2>
+  <p style="font-size: 1.1rem;">Your support keeps this library free and accessible for everyone. Please choose a method
+    below to contribute :</p>
+
   <div class="donate-grid">
     <div class="donate-card paypal">
       <img src="images/paypal.svg" alt="PayPal" />
@@ -861,31 +917,31 @@
 
 <!-- Footer -->
 <footer class="container">
-  <p>&copy; 2025 Books of Ilm. All rights reserved.</p>
+  <p>&copy; 2025 Books of I'lm. All rights reserved.</p>
 </footer>
 <script>
   // Helper: Shuffle array
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
-  return array;
-}
 
-// Load Random Books from books.json
-function loadRandomBooks(count = 15) {
-  fetch('public/books.json') // 👈 Updated path
-    .then(res => res.json())
-    .then(books => {
-      const selected = shuffleArray(books).slice(0, count);
-      const container = document.getElementById('jsonBookGrid');
-      container.innerHTML = '';
+  // Load Random Books from books.json
+  function loadRandomBooks(count = 10) {
+    fetch('public/books.json') // 👈 Updated path
+      .then(res => res.json())
+      .then(books => {
+        const selected = shuffleArray(books).slice(0, count);
+        const container = document.getElementById('jsonBookGrid');
+        container.innerHTML = '';
 
-      selected.forEach(book => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
+        selected.forEach(book => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
           <img
             loading="lazy"
             src="${book.thumb}"
@@ -896,19 +952,19 @@ function loadRandomBooks(count = 15) {
           <p>Size: ${book.size}</p>
           <a href="${book.file}" class="btn" download>Download PDF</a>
         `;
-        container.appendChild(card);
-        if (typeof observer !== 'undefined') observer.observe(card);
-      });
-    })
-    .catch(err => console.error('Error loading books.json:', err));
-}
+          container.appendChild(card);
+          if (typeof observer !== 'undefined') observer.observe(card);
+        });
+      })
+      .catch(err => console.error('Error loading books.json:', err));
+  }
 
-// Init on DOM load
-document.addEventListener('DOMContentLoaded', () => {
-  loadRandomBooks();
-  document.getElementById('refreshRandom')
-          .addEventListener('click', () => loadRandomBooks());
-});
+  // Init on DOM load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadRandomBooks();
+    document.getElementById('refreshRandom')
+      .addEventListener('click', () => loadRandomBooks());
+  });
 
 </script>
 <script>
@@ -935,16 +991,27 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDarkIcon();
   });
 
-// Show Back to Top on scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('backToTop').style.display =
-    window.scrollY > 300 ? 'block' : 'none';
-});
+  // Back to Top: Show on scroll + smooth scroll
+  const backBtn = document.getElementById('backToTop');
 
-// Back to Top Functionality
-document.getElementById('backToTop').addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+  window.addEventListener('scroll', () => {
+    backBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+  });
+
+  backBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Request Button: Redirect to your request page
+  const feedbackBtn = document.getElementById('feedbackBtn');
+
+  feedbackBtn.addEventListener('click', () => {
+    // Replace with your actual request page path
+    window.location.href = 'request.html';
+    // Or open in new tab:
+    // window.open('request.html', '_blank');
+  });
+
 
   // D) HAMBURGER MENU TOGGLE
   const hamburger = document.getElementById('hamburgerBtn');
