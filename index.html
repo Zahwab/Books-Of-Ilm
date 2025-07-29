@@ -567,150 +567,144 @@
       }
     }
 
-    /* FORM CONTAINER */
-    #cover-form {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2em;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      max-width: 600px;
-      margin: 2em auto;
-    }
+   /* FORM CONTAINER */
+#cover-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 600px;
+  margin: 2em auto;
+}
+#cover-form:hover,
+#cover-form:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
 
-    #cover-form:hover,
-    #cover-form:focus-within {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
+/* FORM HEADLINE */
+#cover-form h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1em;
+  color: var(--fg);
+}
 
-    /* FORM HEADLINE */
-    #cover-form h2 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1em;
-      color: var(--fg);
-    }
+/* FORM WRAPPER */
+#cover-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
 
-    /* FORM WRAPPER */
-    #cover-form form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5em;
-    }
+/* FIELD GROUP */
+.field-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1em;
+}
 
-    /* FIELD GROUP */
-    .field-group {
-      position: relative;
-      width: 100%;
-      margin-bottom: 1em;
-    }
+/* INPUTS / SELECT / TEXTAREA */
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  padding: 1.2em 1em;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--alt);
+  font-size: 1rem;
+  color: var(--fg);
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
 
-    /* INPUTS / SELECT / TEXTAREA */
-    .field-group input,
-    .field-group select,
-    .field-group textarea {
-      width: 100%;
-      padding: 1.2em 1em;
-      min-height: 44px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--alt);
-      font-size: 1rem;
-      color: var(--fg);
-      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-    }
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,143,0,0.2);
+}
 
-    .field-group input:focus,
-    .field-group select:focus,
-    .field-group textarea:focus {
-      border-color: var(--accent);
-      background: var(--surface);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.2);
-    }
+/* FLOATING LABEL */
+.field-group label {
+  position: absolute;
+  top: 1.4em;
+  left: 1em;
+  padding: 0 0.5em;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--muted);
+  background: var(--alt);
+  pointer-events: none;
+  transition: transform 0.3s ease, font-size 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
 
-    /* FLOATING LABEL */
-    .field-group label {
-      position: absolute;
-      top: 1.4em;
-      left: 1em;
-      padding: 0 0.5em;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: var(--muted);
-      background: var(--alt);
-      pointer-events: none;
-      transition: transform 0.3s ease, font-size 0.3s ease, color 0.3s ease, background 0.3s ease;
-    }
+.field-group input:focus + label,
+.field-group textarea:focus + label,
+.field-group select:focus + label,
+.field-group input:not(:placeholder-shown) + label,
+.field-group textarea:not(:placeholder-shown) + label,
+.field-group select:not([value=""]) + label {
+  transform: translateY(-1.8em) scale(0.9);
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--surface);
+}
 
-    .field-group input:focus+label,
-    .field-group textarea:focus+label,
-    .field-group select:focus+label,
-    .field-group input:not(:placeholder-shown)+label,
-    .field-group textarea:not(:placeholder-shown)+label,
-    .field-group select:not([value=""])+label {
-      transform: translateY(-1.8em) scale(0.9);
-      font-size: 0.85rem;
-      color: var(--accent);
-      background: var(--surface);
-    }
+/* SUBMIT BUTTON + RIPPLE */
+#cover-form button[type="submit"] {
+  background: var(--primary);
+  color: var(--surface);
+  padding: 0.9em 1.4em;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+#cover-form button[type="submit"]:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
+#cover-form button[type="submit"]::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+  animation: ripple 0.6s ease-out;
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
 
-    /* SUBMIT BUTTON + RIPPLE */
-    #cover-form button[type="submit"] {
-      background: var(--primary);
-      color: var(--surface);
-      padding: 0.9em 1.4em;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    #cover-form button[type="submit"]:hover {
-      background: var(--accent);
-      transform: scale(1.05);
-    }
-
-    #cover-form button[type="submit"]::after {
-      content: "";
-      position: absolute;
-      background: rgba(255, 255, 255, 0.5);
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: scale(0);
-      opacity: 0;
-      animation: ripple 0.6s ease-out;
-    }
-
-    @keyframes ripple {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
-
-    /* DARK MODE */
-    body.dark #cover-form {
-      background: var(--alt);
-    }
-
-    body.dark #cover-form input,
-    body.dark #cover-form select,
-    body.dark #cover-form textarea {
-      background: var(--surface);
-      color: var(--fg);
-    }
-
-    body.dark #cover-form label {
-      background: var(--surface);
-    }
+/* DARK MODE */
+body.dark #cover-form {
+  background: var(--alt);
+}
+body.dark #cover-form input,
+body.dark #cover-form select,
+body.dark #cover-form textarea {
+  background: var(--surface);
+  color: var(--fg);
+}
+body.dark #cover-form label {
+  background: var(--surface);
+}
 
     /* 9. GRIDS & CARDS */
     .grid,
@@ -1192,9 +1186,8 @@
   </div>
 
 </section>
-<!-- COVER FORM (Above Donation Section) -->
 <section id="cover-form">
-  <h2>Your support keeps this library free and accessible for everyone💖</h2>
+  <h2>Your Info</h2>
   <form id="user-form">
     <div class="field-group">
       <input type="text" id="name" name="name" required placeholder=" " />
@@ -1205,9 +1198,15 @@
       <input type="email" id="email" name="email" required placeholder=" " />
       <label for="email">Email Address</label>
     </div>
+
     <div class="field-group">
-      <input type="tel" id="phone" name="phone" placeholder="+1234567890" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" required>
-      <label for="phone">Phone Number</label>
+      <select id="country" name="country" required>
+        <option value="" disabled selected hidden></option>
+        <option value="IN">India</option>
+        <option value="US">United States</option>
+        <option value="UK">United Kingdom</option>
+      </select>
+      <label for="country">Country</label>
     </div>
 
     <div class="field-group">
@@ -1218,6 +1217,7 @@
     <button type="submit" class="btn">Submit</button>
   </form>
 </section>
+
 
 
 <!-- Your original DONATE SECTION (initially hidden) -->
@@ -1515,7 +1515,19 @@
   });
 
 </script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
 
+<script>
+  const form = document.getElementById('requestForm');
+  form.addEventListener('submit', function (e) {
+    const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+    if (!hCaptcha) {
+      e.preventDefault();
+      alert("Please fill out captcha field");
+      return;
+    }
+  });
+</script>
 </body>
 
 </html>
