@@ -8,10 +8,61 @@
     <title>Request</title>
     <link rel="shortcut icon" href="oneummah.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <style>.pagepilot-breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 1.8rem auto;
+  padding: 0.6em 1em;
+  color: var(--primary);
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: fit-content;
+  max-width: 90%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.pagepilot-breadcrumb a {
+  text-decoration: none;
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.pagepilot-breadcrumb a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  box-shadow: 0 0 8px var(--accent);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+}
+
+.pagepilot-breadcrumb .divider {
+  color: var(--muted);
+  font-size: 1.2rem;
+}
+
+.pagepilot-breadcrumb span#currentContext {
+  color: var(--fg);
+  font-weight: 600;
+}
+</style>
 </head>
 
 <body>
     <div id="preloader"></div>
+        <nav class="pagepilot-breadcrumb">
+  <a href="index.html">🏠 Home</a>
+  <span class="divider">›</span>
+  <a href="knowledge.html">📚 Full Library</a>
+</nav>
+
     <center>
         <div class="contact-container">
             <form id="requestForm" action="https://api.web3forms.com/submit" method="POST" class="contact-left">
@@ -41,7 +92,19 @@
             loader.style.display = "none";
         });
     </script>
+<script>
 
+  document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  });
+
+ document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+      e.preventDefault();
+    }
+  });
+
+</script>
     <script>
         const MAX_DAILY_SUBMISSIONS = 1;
         const MAX_MONTHLY_SUBMISSIONS = 3;

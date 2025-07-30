@@ -32,6 +32,9 @@
             color: #1F6521;
         }
 
+
+
+
         /* The anchors inside .books will now be left aligned */
         .books a {
             font-size: 1.7vw;
@@ -396,6 +399,24 @@
                 max-width: 100%;
                 border-radius: 6px;
             }
+              .pagepilot-breadcrumb {
+    font-size: 0.95rem;
+    padding: 0.5em 0.6em;
+    gap: 0.3rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagepilot-breadcrumb .divider {
+    display: none;
+  }
+
+  .pagepilot-breadcrumb a,
+  .pagepilot-breadcrumb span#currentContext {
+    display: block;
+    width: 100%;
+    margin: 2px 0;
+  }
         }
 
         @media (max-width: 480px) {
@@ -449,10 +470,16 @@
     <br><br>
     <div class="sunnah">
         <center>
-            One Of The Best Websites Of Ahadith <a href="https://sunnah.com/" target="_blank">(Sunnah.com)</a>
+            One Of The Best Websites Of Ahadeeth <a href="https://sunnah.com/" target="_blank">(Sunnah.com)</a>
         </center>
     </div>
-    <br><br>
+    <br>
+    <nav class="pagepilot-breadcrumb">
+  <a href="index.html">🏠 Home</a>
+  <span class="divider">›</span>
+  <a href="knowledge.html">📚 Full Library</a>
+</nav>
+
     <div class="search-container">
         <div class="search-box" id="searchBox">
             <input type="text" class="search-input" placeholder="Find the book..." id="searchInput"
@@ -2540,7 +2567,19 @@
         window.addEventListener("load", function () {
             loader.style.display = "none";
         });</script>
+<script>
 
+  document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  });
+
+ document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+      e.preventDefault();
+    }
+  });
+
+</script>
     <script>
         function applyThumbnailLoader(newImageURL) {
             const thumbnail = document.getElementById("pdfThumbnail");
