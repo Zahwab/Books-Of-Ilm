@@ -1261,11 +1261,6 @@ section {
           Donate via PayPal
         </a>
       </div>
-      <div class="donate-card stripe">
-        <img src="images/credit-card.svg" alt="Card" />
-        <h3>Credit / Debit Card</h3>
-        <button id="stripeBtn" class="btn">Donate with Card</button>
-      </div>
       <div class="donate-card upi">
         <img src="images/upi.svg" alt="UPI" />
         <h3>UPI (India)</h3>
@@ -1317,7 +1312,6 @@ section {
   });
 
 </script>
-
 <script>
   // ===============================
   // 1. ON-SCROLL FADE-IN OBSERVER
@@ -1526,15 +1520,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       });
     }
 
-    //–– 4.g. STRIPE CHECKOUT FOR CARD DONATIONS
-    const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
-    document.getElementById('stripeBtn')
-      .addEventListener('click', () => {
-        fetch('/create-stripe-session', { method: 'POST' })
-          .then(r => r.json())
-          .then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
-          .catch(e => console.error('Stripe error:', e));
-      });
 
     //–– 4.h. RIPPLE EFFECT ON BUTTONS
    document.querySelectorAll('.btn').forEach(btn => {
