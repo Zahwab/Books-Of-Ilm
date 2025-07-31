@@ -1,1 +1,17 @@
+.netlify
 pdfs
+Qur'an (Yaseer Al Dossary)
+img
+llama-2-7b-chat.gguf
+ggml-base.dll
+ggml-cpu.dll
+ggml.dll
+llama-cli.exe
+llama.dll
+llama.exe
+mtmd.dll
+netlify.toml
+poems
+netlify
+models
+llama.cpp
