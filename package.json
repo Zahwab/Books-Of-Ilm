@@ -1,5 +1,5 @@
 {
-  "name": "one-ummah",
+  "name": "books-of-ilm",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -55,16 +55,12 @@
     "build": "netlify build",
     "deploy": "npm run build && netlify deploy --prod --dir=."
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zahwab/Books-Of--Ilm.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Zahwab/new-home.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Zahwab/new-home/issues"
-  },
-  "homepage": "https://github.com/Zahwab/new-home#readme"
+  "type": "commonjs"
 }
