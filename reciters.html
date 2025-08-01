@@ -32,7 +32,8 @@
                 transform: rotate(360deg);
             }
         }
-  .pagepilot-breadcrumb {
+
+        .pagepilot-breadcrumb {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -132,32 +133,48 @@
 </head>
 
 <body>
-    <!-- Preloader with spinner -->
     <div id="preloader">
         <div class="loader"></div>
     </div>
-<nav class="pagepilot-breadcrumb">
+    <nav class="pagepilot-breadcrumb">
         <a href="index.html">🏠 Home</a>
         <span class="divider">›</span>
-     <a href="recitation.html">🎙️ Reciters</a>
+        <a href="reciters.html">🎙️ Reciters</a>
     </nav>
     <main>
         <div class="flex6">
+            <div class="card alfasy">
+                <a href="alfasy.html" rel="noopener noreferrer">
+                    <img src="../img/alfasy.png" alt="Mishary Rashid Alafasy" />
+                </a>
+                <p>Mishary Rashid Alafasy (Kuwaiti qāriʾ and imam)</p>
+            </div>
             <div class="card yaseer">
-                <a href="dosary.html" target="_blank" rel="noopener noreferrer">
+                <a href="dosary.html" rel="noopener noreferrer">
                     <img src="../img/yaseer2.png" alt="Yasser Al-Dosary" />
                 </a>
                 <p>Yasser Al-Dosary (Imam and khatib)</p>
             </div>
         </div>
     </main>
+    <script>
 
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+                e.preventDefault();
+            }
+        });
+
+    </script>
     <script>
         var loader = document.getElementById("preloader");
         window.addEventListener("load", function () {
             loader.style.display = "none";
         })
-
 
         function getRandomLightColor() {
             const r = Math.floor(200 + Math.random() * 56); // Range: 200-255 for lighter colors
@@ -175,6 +192,7 @@
         setTimeout(changeBackgroundColor, 100);
         setInterval(changeBackgroundColor, 5000);
     </script>
+
 </body>
 
 </html>

@@ -25,7 +25,8 @@
             transition: background-color 3s ease-in-out;
             font-family: Arial, sans-serif;
         }
-       .pagepilot-breadcrumb {
+
+        .pagepilot-breadcrumb {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -207,7 +208,7 @@
 <body>
     <!-- Preloader -->
     <div id="preloader"></div>
-<nav class="pagepilot-breadcrumb">
+    <nav class="pagepilot-breadcrumb">
         <a href="index.html">🏠 Home</a>
         <span class="divider">›</span>
         <a href="poem.html">✍️ Poems</a>
@@ -268,6 +269,19 @@
 
         setTimeout(changeBackgroundColor, 100);
         setInterval(changeBackgroundColor, 5000);
+    </script>
+    <script>
+
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+                e.preventDefault();
+            }
+        });
+
     </script>
 </body>
 

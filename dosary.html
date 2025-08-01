@@ -42,50 +42,50 @@
                         padding: 20px;
                 }
 
-   .pagepilot-breadcrumb {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            font-size: 1.05rem;
-            font-weight: 500;
-            margin: 1.8rem auto;
-            padding: 0.6em 1em;
-            color: var(--primary);
-            background: var(--alt);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            width: fit-content;
-            max-width: 90%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+                .pagepilot-breadcrumb {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        gap: 0.4rem;
+                        font-size: 1.05rem;
+                        font-weight: 500;
+                        margin: 1.8rem auto;
+                        padding: 0.6em 1em;
+                        color: var(--primary);
+                        background: var(--alt);
+                        border: 1px solid var(--border);
+                        border-radius: 10px;
+                        width: fit-content;
+                        max-width: 90%;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                        text-align: center;
+                }
 
-        .pagepilot-breadcrumb a {
-            text-decoration: none;
-            color: var(--primary);
-            transition: all 0.3s ease;
-        }
+                .pagepilot-breadcrumb a {
+                        text-decoration: none;
+                        color: var(--primary);
+                        transition: all 0.3s ease;
+                }
 
-        .pagepilot-breadcrumb a:hover {
-            color: var(--accent);
-            text-decoration: underline;
-            box-shadow: 0 0 8px var(--accent);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 0.2em 0.4em;
-            border-radius: 6px;
-        }
+                .pagepilot-breadcrumb a:hover {
+                        color: var(--accent);
+                        text-decoration: underline;
+                        box-shadow: 0 0 8px var(--accent);
+                        background: rgba(255, 255, 255, 0.03);
+                        padding: 0.2em 0.4em;
+                        border-radius: 6px;
+                }
 
-        .pagepilot-breadcrumb .divider {
-            color: var(--muted);
-            font-size: 1.2rem;
-        }
+                .pagepilot-breadcrumb .divider {
+                        color: var(--muted);
+                        font-size: 1.2rem;
+                }
 
-        .pagepilot-breadcrumb span#currentContext {
-            color: var(--fg);
-            font-weight: 600;
-        }
+                .pagepilot-breadcrumb span#currentContext {
+                        color: var(--fg);
+                        font-weight: 600;
+                }
 
                 /* Main Content Styles */
                 .quran-title {
@@ -180,13 +180,13 @@
                 <section class="quran-title">
                         The Noble Qur'an
                 </section>
-<nav class="pagepilot-breadcrumb">
-        <a href="index.html">🏠 Home</a>
-        <span class="divider">›</span>
-        <a href="recitation.html">🎙️ Reciters</a>
-         <span class="divider">›</span>
-        <a href="dosary.html">🔊 Yasser Al-Dosary - Qur'an Recitations</a>
-    </nav>
+                <nav class="pagepilot-breadcrumb">
+                        <a href="index.html">🏠 Home</a>
+                        <span class="divider">›</span>
+                        <a href="reciters.html">🎙️ Reciters</a>
+                        <span class="divider">›</span>
+                        <a href="dosary.html">🔊 Yasser Al-Dosary - Qur'an Recitations</a>
+                </nav>
 
                 <section class="download-section">
                         <a href="../pdfs/books of knowledge/Translation of the meanings of The Noble Qur'an (English).pdf"
@@ -891,6 +891,19 @@
                 </section>
                 <button id="scrollToTopButton" onclick="scrollToTop()">↑</button>
         </main>
+        <script>
+
+                document.addEventListener("contextmenu", function (e) {
+                        e.preventDefault();
+                });
+
+                document.addEventListener("keydown", function (e) {
+                        if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+                                e.preventDefault();
+                        }
+                });
+
+        </script>
         <script>
                 var loader = document.getElementById("preloader");
                 window.addEventListener("load", function () {

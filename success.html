@@ -145,7 +145,7 @@
 </head>
 
 <body>
-  <div id="preloader1"></div>
+  <div id="preloader"></div>
   <div class="container">
     <div class="logo">
       <img src="../img/Check.gif" alt="Success">
@@ -156,10 +156,23 @@
     <a href="request.html">Submit another response after 24 Hours of this submission</a>
   </div>
   <script>
-    var loader = document.getElementById("preloader1");
+    var loader = document.getElementById("preloader");
     window.addEventListener("load", function () {
       loader.style.display = "none";
     })
+  </script>
+  <script>
+
+    document.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C") || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
+
   </script>
 </body>
 
