@@ -12,6 +12,80 @@
         content="Islamic PDFs, Aqeedah, Hadeeth, Fiqh, One Ummah, authentic knowledge, salafi books, ahle hadees, salafi manhaj" />
     <meta name="author" content="Zahidur Rahman">
     <link rel="icon" href="oneummah.ico" type="image/x-icon">
+
+    <!-- Organization schema (static) -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Books of 'Ilm",
+    "url": "https://booksofilm.netlify.app/knowledge.html",
+    "logo": "https://lailahaillallah.netlify.app/img/booksofilm.png",
+    "description": "Books Of 'Ilm built by a servant of Allah (ﷻ) is a global Islamic platform that connects Muslims through shared saheeh evidences and texts in pdf format written by Major Scholars of the Ummah",
+    "founder": {
+      "@type": "Person",
+      "name": "Zahidur Rahman",
+      "sameAs": [
+        "https://github.com/Zahwab"
+      ]
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Support",
+      "telephone": "+91-8145557632",
+      "email": "servantofallahswt118@gmail.com",
+      "areaServed": "IN",
+      "availableLanguage": ["English", "Bengali"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Berhampore",
+      "addressRegion": "WB",
+      "postalCode": "742101",
+      "addressCountry": "IN"
+    },
+    "foundingDate": "2024-10-19",
+    "keywords": "Zahidur Rahman, Books of 'Ilm, global ummah, faith, spirituality, knowledge sharing, salafi, ahle hadees, manhaj as salaf, authentic hadeeth, books of knowledgefull library, books of'ilm library"
+  }
+  </script>
+    <script type="application/ld+json" id="ld-json"></script>
+    <script>
+        (function () {
+            fetch('public/books.json')
+                .then(res => res.json())
+                .then(books => {
+                    const structuredData = {
+                        "@context": "https://schema.org",
+                        "@type": "ItemList",
+                        "itemListElement": books.map((book, i) => {
+                            // turn "the-great-gatsby" into "The Great Gatsby"
+                            const displayName = book.name
+                                .split('-')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
+
+                            return {
+                                "@type": "ListItem",
+                                "position": i + 1,
+                                "item": {
+                                    "@type": "Book",
+                                    "name": displayName,
+                                    "url": `${location.origin}/${encodeURIComponent(book.file)}`,
+                                    "image": `${location.origin}/${encodeURIComponent(book.thumb)}`,
+                                    "bookFormat": "https://schema.org/EBook",
+                                    "contentSize": book.size
+                                }
+                            };
+                        })
+                    };
+
+                    document.getElementById('ld-json')
+                        .textContent = JSON.stringify(structuredData, null, 2);
+                })
+                .catch(err => console.error('Failed loading books.json:', err));
+        })();
+    </script>
+
     <link rel="stylesheet" href="style.css">
     <style>
         /* Base Styles */
