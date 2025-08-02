@@ -414,27 +414,27 @@
     "size": "49.03 MB"
   },
   {
+    "thumb": "public/thumbnails/Commentary on Kitab At Tawheed Vol 1 Sh Al Uthaymeen compressed.pdf.webp",
+    "name": "Commentary on Kitab At Tawheed Vol 1 Sh Al Uthaymeen compressed.pdf",
+    "file": "pdfs/books of knowledge/Commentary on Kitab At Tawheed Vol 1 Sh Al Uthaymeen compressed.pdf.pdf",
+    "size": "60.76 MB"
+  },
+  {
+    "thumb": "public/thumbnails/Commentary on Kitab At Tawheed Vol 2 Sh Al Uthaymeen compressed.webp",
+    "name": "Commentary on Kitab At Tawheed Vol 2 Sh Al Uthaymeen compressed",
+    "file": "pdfs/books of knowledge/Commentary on Kitab At Tawheed Vol 2 Sh Al Uthaymeen compressed.pdf",
+    "size": "57.14 MB"
+  },
+  {
     "thumb": "public/thumbnails/Commentary on the Creed of at-Tahawi by Ibn Abi al-Izz.webp",
     "name": "Commentary on the Creed of at-Tahawi by Ibn Abi al-Izz",
     "file": "pdfs/books of knowledge/Commentary on the Creed of at-Tahawi by Ibn Abi al-Izz.pdf",
     "size": "53.47 MB"
   },
   {
-    "thumb": "public/thumbnails/Commentary_on_Kitab_At_Tawheed_Vol_1_Sh_Al_ Uthaymeen_compressed.webp",
-    "name": "Commentary_on_Kitab_At_Tawheed_Vol_1_Sh_Al_ Uthaymeen_compressed",
-    "file": "pdfs/books of knowledge/Commentary_on_Kitab_At_Tawheed_Vol_1_Sh_Al_ Uthaymeen_compressed.pdf",
-    "size": "60.76 MB"
-  },
-  {
-    "thumb": "public/thumbnails/Commentary_on_Kitab_At_Tawheed_Vol_2_Sh_Al_ Uthaymeen_compressed.webp",
-    "name": "Commentary_on_Kitab_At_Tawheed_Vol_2_Sh_Al_ Uthaymeen_compressed",
-    "file": "pdfs/books of knowledge/Commentary_on_Kitab_At_Tawheed_Vol_2_Sh_Al_ Uthaymeen_compressed.pdf",
-    "size": "57.14 MB"
-  },
-  {
-    "thumb": "public/thumbnails/Commentary_on_the_Three_Fundamental.webp",
-    "name": "Commentary_on_the_Three_Fundamental",
-    "file": "pdfs/books of knowledge/Commentary_on_the_Three_Fundamental.pdf",
+    "thumb": "public/thumbnails/Commentary on the Three Fundamental.webp",
+    "name": "Commentary on the Three Fundamental",
+    "file": "pdfs/books of knowledge/Commentary on the Three Fundamental.pdf",
     "size": "56.47 MB"
   },
   {
@@ -1380,9 +1380,9 @@
     "size": "3.68 MB"
   },
   {
-    "thumb": "public/thumbnails/Q A_Usool_Ath_Thalathah_Madrasa_Khadeejatul_Kubra_Mira_Road.webp",
-    "name": "Q A_Usool_Ath_Thalathah_Madrasa_Khadeejatul_Kubra_Mira_Road",
-    "file": "pdfs/books of knowledge/Q A_Usool_Ath_Thalathah_Madrasa_Khadeejatul_Kubra_Mira_Road.pdf",
+    "thumb": "public/thumbnails/Q A Usool Ath Thalathah Madrasa Khadeejatul Kubra Mira Road.webp",
+    "name": "Q A Usool Ath Thalathah Madrasa Khadeejatul Kubra Mira Road",
+    "file": "pdfs/books of knowledge/Q A Usool Ath Thalathah Madrasa Khadeejatul Kubra Mira Road.pdf",
     "size": "13.35 MB"
   },
   {
@@ -1392,9 +1392,9 @@
     "size": "0.47 MB"
   },
   {
-    "thumb": "public/thumbnails/Quran_Workbook_V1.01.webp",
-    "name": "Quran_Workbook_V1.01",
-    "file": "pdfs/books of knowledge/Quran_Workbook_V1.01.pdf",
+    "thumb": "public/thumbnails/Quran Workbook V1.01.webp",
+    "name": "Quran Workbook V1.01",
+    "file": "pdfs/books of knowledge/Quran Workbook V1.01.pdf",
     "size": "1.54 MB"
   },
   {
@@ -2550,9 +2550,9 @@
     "size": "1.99 MB"
   },
   {
-    "thumb": "public/thumbnails/Towards_Understanding_Tadmuriyyah_Shaykh_Muhammad_Al_Uthaymeen.webp",
-    "name": "Towards_Understanding_Tadmuriyyah_Shaykh_Muhammad_Al_Uthaymeen",
-    "file": "pdfs/books of knowledge/Towards_Understanding_Tadmuriyyah_Shaykh_Muhammad_Al_Uthaymeen.pdf",
+    "thumb": "public/thumbnails/Towards Understanding Tadmuriyyah Shaykh Muhammad Al Uthaymeen.webp",
+    "name": "Towards Understanding Tadmuriyyah Shaykh Muhammad Al Uthaymeen",
+    "file": "pdfs/books of knowledge/Towards Understanding Tadmuriyyah Shaykh Muhammad Al Uthaymeen.pdf",
     "size": "4.87 MB"
   },
   {
