@@ -1,5 +1,6 @@
 .netlify
 pdfs
+thumbnails
 Qur'an (Yaseer Al Dossary)
 img
 llama-2-7b-chat.gguf
@@ -17,3 +18,4 @@ models
 llama.cpp
 node_modules
 Qur'an (Sheikh Mishary Alafasy)
+
