@@ -29,7 +29,7 @@ for pdf_path in pdfs:
         page = doc.load_page(0)
         pix  = page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5))
         img  = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-        img.save(thumb_fp, "WEBP", quality=90)
+        img.save(thumb_fp, "WEBP", quality=100)
         thumb_rel = os.path.relpath(thumb_fp, ROOT).replace("\\", "/")
         print(f"🖼️ Created: {thumb_rel}")
         created += 1

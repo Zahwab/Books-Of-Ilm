@@ -72,7 +72,7 @@ No extra text or explanation.
         if not os.path.exists(thumb_fp):
             try:
                 img = convert_from_path(pdf_path, dpi=150, first_page=1, last_page=1)[0]
-                img.save(thumb_fp, format="WEBP", quality=80)
+                img.save(thumb_fp, format="WEBP", quality=100)
                 print(f"🖼️ Created thumbnail: {thumb_rel}")
             except Exception as ex:
                 print(f"⚠️ Thumb error for {name}: {ex}")

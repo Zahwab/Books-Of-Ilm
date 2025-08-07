@@ -26,7 +26,7 @@ for pdf_path in all_pdfs:
     if not os.path.exists(thumb_fp):
         try:
             img = convert_from_path(pdf_path, dpi=100, first_page=1, last_page=1)[0]
-            img.save(thumb_fp, format="WEBP", quality=80)
+            img.save(thumb_fp, format="WEBP", quality=100)
             print(f"🖼️ Created thumbnail for {name}")
         except Exception as e:
             print(f"⚠️ Thumbnail failed for {name}: {e}")
